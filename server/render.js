@@ -3,6 +3,7 @@ import Rollbar from 'rollbar'
 import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import compression from 'compression'
+import subdomain from 'express-subdomain'
 
 import { render } from './routes/render'
 
@@ -31,6 +32,8 @@ var argv = require('yargs')
   .argv;
 
 var app = express();
+var router = express.Router();
+app.use(subdomain('orams', router));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(compression());
 app.use('/bundle', express.static('build'));
@@ -42,6 +45,7 @@ app.use(function errorHandler(err, request, response, next) {
 });
 // Use the rollbar error handler to send exceptions to your rollbar account
 app.use(rollbar.errorHandler());
+
 
 if (isDev) {
   app.use(morgan('tiny'));
@@ -55,7 +59,7 @@ app.post('/render', render);
 
 app.set('view engine', 'ejs');
 
-app.get('/orams*', function(req, res) {
+router.get('/orams*', function(req, res) {
   res.render('orams');
 })
 
