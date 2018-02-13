@@ -12,6 +12,7 @@ import DocumentTitle from 'react-document-title';
 import Icon     from '../../../../shared/Icon';
 import NotFound from '../../../../shared/NotFound';
 import LocalNav from '../../../../shared/LocalNav';
+import LoadingIndicatorFullPage from '../../../../shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage';
 
 import { actions as stepActions, STATUS } from '../../redux/modules/steps';
 import { getStateForms, dispatchFormState } from '../../redux/helpers';
@@ -204,6 +205,10 @@ class Signup extends React.Component {
             return null;
           }
 
+          if (this.props.currentlySending) {
+            return <LoadingIndicatorFullPage />
+          }
+
           return (
             <LocalNav className="col-xs-12 col-sm-3" navClassName="step-navigation" id="main-navigation">
               {this.filteredSteps.map(({ pattern, label, formKey, id }, i) => {
@@ -268,6 +273,7 @@ class Signup extends React.Component {
               );
 
               const element = React.createElement(component, props, children);
+
               return (
                 <DocumentTitle title={`${label || 'Application'} - Digital Marketplace`}>
                   <article id="content" className={articleClassNames}>
@@ -299,7 +305,8 @@ const mapStateToProps = (state, ownProps) => {
     application,
     steps,
     options,
-    ...ownProps
+    ...ownProps,
+    currentlySending: application.currentlySending
   };
 };
 

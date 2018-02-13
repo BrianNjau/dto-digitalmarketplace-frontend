@@ -14,6 +14,7 @@ const APP_ERROR = 'application/error';
 const LINK_CLICK = 'link/click';
 const EXPIRED_LIABILITY_INSURANCE = 'application/expired-liability-insurance';
 const EXPIRED_WORKERS_COMPENSATION = 'application/expired-workers-compensation';
+const SENDING_REQUEST = 'application/sending-request';
 
 const statusCheck = (response) => {
   if (response.status >= 200 && response.status < 300) {
@@ -47,6 +48,11 @@ export default function reducer(state = {}, action = {}) {
       return {
         ...state,
         expiredWorkersCompensation: action.expiredWorkersCompensation
+      }
+    case SENDING_REQUEST:
+      return {
+        ...state,
+        currentlySending: action.currentlySending
       }
     default:
       return state;
@@ -112,13 +118,17 @@ export const validateCompletionStatus = (state, dispatch) => {
   }
 };
 
+export const sendingRequest = currentlySending => ({ type: SENDING_REQUEST, currentlySending })
+
 export const navigateToStep = (to) => {
   return (dispatch, getState, {router}) => {
     const state = getState();
+    dispatch(sendingRequest(true))
     validateCompletionStatus(state, dispatch);
     dispatch(preStep());
     dispatch(nextStep(to));
     router.push(to);
+    dispatch(sendingRequest(false))
     focusHeading();
   }
 };
@@ -183,7 +193,8 @@ const constants = {
   APP_POST_SUBMIT,
   APP_PRE_SUBMIT,
   EXPIRED_LIABILITY_INSURANCE,
-  EXPIRED_WORKERS_COMPENSATION
+  EXPIRED_WORKERS_COMPENSATION,
+  SENDING_REQUEST
 };
 
 const actionCreators = {
@@ -201,7 +212,8 @@ const actionCreators = {
   linkClick,
   push,
   expiredLiabilityInsurance,
-  expiredWorkersCompensation
+  expiredWorkersCompensation,
+  currentlySending
 };
 
 export {
