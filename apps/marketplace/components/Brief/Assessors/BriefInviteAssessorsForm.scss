@@ -1,25 +1,27 @@
-.container {
-  margin-top: 2rem;
-}
-
-.badge {
-  border-radius: 3px;
-  border: solid 2px #224a61;
-  color: #224a61;
-  padding: 2px 5px;
-  display: inline-block;
-}
-
-@media screen and (min-width: 992px) {
-  .badge {
-    margin-bottom: 0.5rem;
-  }
-}
 .remainingCount {
   margin-top: 0 !important;  
 }
 
-.submitButton {
-  margin-top: 3.5rem;
+.addButton {
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
   display: block;
+}
+
+.submitButton {
+  margin-top: 1.5rem;
+  display: block;
+}
+
+.removeButton {
+  padding: 0;
+}
+
+.returnButton {
+  padding-left: 0;
+  margin-top: 2rem;
+}
+
+.assessorContainer {
+  margin-top: 2rem;
 }

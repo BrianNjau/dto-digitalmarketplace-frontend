@@ -1,8 +1,10 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Control } from 'react-redux-form'
 import AUheading from '@gov.au/headings/lib/js/react.js'
 import AUbutton from '@gov.au/buttons/lib/js/react.js'
+import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import Textfield from 'shared/form/Textfield'
 import { required, validEmail } from 'shared/validators'
 import ErrorBox from 'shared/form/ErrorBox'
@@ -14,87 +16,135 @@ const BriefInviteAssessorsForm = ({
   assessors,
   setFocus,
   handleSubmit,
-  handleRemoveClick,
-  remainingCount,
-  submitClicked
-}) => (
-  <div>
-    <ErrorBox
-      title="There was a problem inviting an evaluator"
-      model={model}
-      setFocus={setFocus}
-      submitClicked={submitClicked}
-    />
-    <AUheading size="xl" level="1">
-      Your evaluators
-    </AUheading>
-    {assessors.length === 0 ? (
-      <p>You have no evaluators added.</p>
-    ) : (
-      <div className={`remove-assessor ${styles.container} `}>
-        {assessors.map(email => (
-          <div className="row" key={email}>
-            <div className="col-md-4 col-sm-4">{email}</div>
-            <div className="col-md-2 col-sm-2">
-              <div className={`${styles.badge} au-display-xs`}>Invite sent</div>
+  submitClicked,
+  briefInviteAssessorsForm,
+  addAssessor,
+  removeAssessor,
+  briefAssessorSubmitSuccess,
+  submittedAssessors,
+  match,
+  maxAssessors,
+  history
+}) => {
+  if (briefAssessorSubmitSuccess) {
+    return (
+      <article role="main">
+        <AUpageAlert as="success">
+          <AUheading size="xl" level="1">
+            Invitations sent
+          </AUheading>
+          <p>An evaluator invitation have been sent to:</p>
+          <ul>{submittedAssessors.map(e => <li key={e.email_address}>{e.email_address}</li>)}</ul>
+          <AUbutton
+            as="tertiary"
+            className={styles.returnButton}
+            onClick={() => history.push(`/2/brief/${match.params.briefId}/overview`)}
+          >
+            Return to overview
+          </AUbutton>
+        </AUpageAlert>
+      </article>
+    )
+  }
+
+  if (assessors.length >= maxAssessors) {
+    return (
+      <AUpageAlert as="error">
+        <AUheading size="xl" level="1">
+          You cannot invite any more evaluators
+        </AUheading>
+      </AUpageAlert>
+    )
+  }
+
+  return (
+    <article role="main">
+      <ErrorBox
+        title="There was a problem inviting evaluators"
+        model={model}
+        setFocus={setFocus}
+        submitClicked={submitClicked}
+      />
+      <AUheading size="xl" level="1">
+        Invite evaluators
+      </AUheading>
+      <p className={styles.remainingCount}>{maxAssessors - assessors.length} invitations remaining</p>
+      <Form model={model} id="briefResponse" onSubmit={data => handleSubmit(data)}>
+        {briefInviteAssessorsForm.assessors.map((assessor, i) => (
+          <div className={styles.assessorContainer} key={i}>
+            <div className="row">
+              <div className="col-md-10">
+                <AUheading size="lg" level="2">
+                  {`Evaluator ${i + 1}`}
+                </AUheading>
+              </div>
+              <div className="col-md-2">
+                {i > 0 && (
+                  <AUbutton as="tertiary" className={styles.removeButton} onClick={() => removeAssessor(model, i)}>
+                    Remove
+                  </AUbutton>
+                )}
+              </div>
             </div>
-            <div className="col-md-6 col-sm-6">
-              <AUbutton as="tertiary" onClick={e => handleRemoveClick(email, e)}>
-                Remove evaluator
-              </AUbutton>
-            </div>
+            <Textfield
+              model={`${model}.assessors.[${i}].email_address`}
+              name={`email_address-[${i}]`}
+              id={`email_address-[${i}]`}
+              type="email"
+              htmlFor={`email_address-[${i}]`}
+              label="Email address"
+              validators={{ required, validEmail }}
+              messages={{
+                required: `Evaluator ${i + 1} email is required`,
+                validEmail: 'A validly formatted email is required.'
+              }}
+            />
+            <span className="au-control-input au-control-input--full">
+              <Control.checkbox
+                model={`${model}.assessors.[${i}].view_day_rates`}
+                id={`view_day_rates-[${i}]`}
+                name={`view_day_rates-[${i}]`}
+                value="no"
+                mapProps={{
+                  className: 'au-control-input__input'
+                }}
+              />
+              <label className="au-control-input__text" htmlFor={`view_day_rates-[${i}]`}>
+                Allow this evaluator to see the candidate’s day rates.
+              </label>
+            </span>
           </div>
         ))}
-      </div>
-    )}
-    <AUheading size="lg" level="2">
-      Invite evaluators
-    </AUheading>
-    <p className={styles.remainingCount}>{`(${remainingCount} remaining)`}</p>
-    <p>We will email your chosen evaluators requesting their input in the evaluation process.</p>
-    <Form model={model} id="briefResponse" onSubmit={data => handleSubmit(data)}>
-      <Textfield
-        model={`${model}.email_address`}
-        name="email_address"
-        id="email_address"
-        type="email"
-        htmlFor="email_address"
-        label="Email address"
-        validators={{ required, validEmail }}
-        messages={{
-          required: 'Evaluator email is required',
-          validEmail: 'A validly formatted email is required.'
-        }}
-      />
-      <span className="au-control-input au-control-input--full">
-        <Control.checkbox
-          model=".view_day_rates"
-          id="view_day_rates"
-          name="view_day_rates"
-          value="no"
-          mapProps={{
-            className: 'au-control-input__input'
-          }}
-        />
-        <label className="au-control-input__text" htmlFor="view_day_rates">
-          Allow this evaluator to see the candidate’s day rates.
-        </label>
-      </span>
-      <AUbutton type="submit" className={styles.submitButton} onClick={submitClicked}>
-        Send invite
-      </AUbutton>
-    </Form>
-  </div>
-)
+        <AUbutton
+          as="secondary"
+          className={styles.addButton}
+          onClick={() => addAssessor(model, assessors.length + briefInviteAssessorsForm.assessors.length)}
+        >
+          Add another
+        </AUbutton>
+        <p>We will email your chosen evaluators requesting their input in the evaluation process.</p>
+        <AUbutton type="submit" className={styles.submitButton} onClick={submitClicked}>
+          Send invites
+        </AUbutton>
+      </Form>
+    </article>
+  )
+}
 
 BriefInviteAssessorsForm.defaultProps = {
   model: '',
   assessors: [],
   setFocus: null,
   handleSubmit: null,
-  remainingCount: 0,
-  handleRemoveClick: null,
-  submitClicked: null
+  submitClicked: null,
+  briefInviteAssessorsForm: { assessors: [] },
+  addAssessor: null,
+  removeAssessor: null,
+  briefAssessorSubmitSuccess: false,
+  submittedAssessors: [],
+  match: {},
+  maxAssessors: 5,
+  history: {}
 }
 
 BriefInviteAssessorsForm.propTypes = {
@@ -102,9 +152,15 @@ BriefInviteAssessorsForm.propTypes = {
   assessors: PropTypes.array.isRequired,
   setFocus: PropTypes.func,
   handleSubmit: PropTypes.func,
-  remainingCount: PropTypes.number,
-  handleRemoveClick: PropTypes.func,
-  submitClicked: PropTypes.func
+  submitClicked: PropTypes.func,
+  briefInviteAssessorsForm: PropTypes.object,
+  addAssessor: PropTypes.func,
+  removeAssessor: PropTypes.func,
+  briefAssessorSubmitSuccess: PropTypes.bool,
+  submittedAssessors: PropTypes.array,
+  match: PropTypes.object,
+  maxAssessors: PropTypes.number,
+  history: PropTypes.object
 }
 
 export default BriefInviteAssessorsForm

@@ -392,8 +392,3 @@ label.text-box-number-label {
 main article:first-of-type a.button {
   color: #ffffff !important;
 }
-
-.remove-assessor .au-btn--tertiary {
-  padding: 0;
-  border: 0;
-}

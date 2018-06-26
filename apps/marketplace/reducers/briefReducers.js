@@ -5,7 +5,10 @@ import {
   SPECIALIST_NUMBER,
   ADD_ANOTHER_SPECIALIST,
   BRIEF_OVERVIEW_SUCCESS,
-  DELETE_BRIEF_SUCCESS
+  DELETE_BRIEF_SUCCESS,
+  BRIEF_ASSESSORS_FETCH_DATA_SUCCESS,
+  BRIEF_SENDING_REQUEST,
+  BRIEF_ASSESSOR_SUBMIT_SUCCESS
 } from '../constants/constants'
 
 const defaultBriefState = {
@@ -22,11 +25,22 @@ const defaultBriefState = {
     sections: [],
     status: '',
     title: ''
-  }
+  },
+  currentlySending: false,
+  briefAssessors: [],
+  loadBriefAssessorsSuccess: null,
+  briefAssessorSubmitSuccess: null,
+  briefAssessorDeleteSuccess: null,
+  briefAssessorDeleteEmail: ''
 }
 
 const briefReducer = (state = defaultBriefState, action) => {
   switch (action.type) {
+    case BRIEF_SENDING_REQUEST:
+      return {
+        ...state,
+        currentlySending: action.currentlySending
+      }
     case BRIEF_OVERVIEW_SUCCESS:
       return {
         ...state,
@@ -72,6 +86,23 @@ const briefReducer = (state = defaultBriefState, action) => {
       return {
         ...state,
         addAnotherSpecialist: action.addAnotherSpecialist
+      }
+
+    case BRIEF_ASSESSORS_FETCH_DATA_SUCCESS:
+      return {
+        ...state,
+        briefAssessors: action.briefAssessors,
+        loadBriefAssessorsSuccess: true,
+        loadedAt: new Date().valueOf()
+      }
+
+    case BRIEF_ASSESSOR_SUBMIT_SUCCESS:
+      return {
+        ...state,
+        briefAssessors: [...state.briefAssessors, ...action.briefAssessors],
+        submittedBriefAssessors: action.briefAssessors,
+        briefAssessorSubmitSuccess: true,
+        loadedAt: new Date().valueOf()
       }
 
     default:

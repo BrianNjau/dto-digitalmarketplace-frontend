@@ -41,7 +41,7 @@ export default combineReducers({
       password: ''
     },
     briefInviteAssessorsForm: {
-      email_address: ''
+      assessors: []
     }
   })
 })

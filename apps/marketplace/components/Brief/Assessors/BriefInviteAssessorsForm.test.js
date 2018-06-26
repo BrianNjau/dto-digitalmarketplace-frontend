@@ -17,18 +17,6 @@ describe('BriefInviteAssessorForm', () => {
       </Provider>
     )
 
-    expect(tree.contains(<p>You have no evaluators added.</p>)).toBeTruthy()
-  })
-
-  test('displays an assessor', () => {
-    const tree = mount(
-      <Provider store={store}>
-        <BriefInviteAssessorsForm assessors={['test@test.com']} remainingCount={4} />
-      </Provider>
-    )
-
-    expect(tree.contains(<p>You have no evaluators added.</p>)).toBeFalsy()
-    expect(tree.contains('test@test.com')).toBeTruthy()
-    expect(tree.contains('(4 remaining)')).toBeTruthy()
+    expect(tree.find('h1').text()).toBe('Invite evaluators')
   })
 })

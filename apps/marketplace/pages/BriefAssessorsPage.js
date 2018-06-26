@@ -4,17 +4,24 @@ import { actions } from 'react-redux-form'
 import { withRouter } from 'react-router-dom'
 import formProps from 'shared/form/formPropsSelector'
 
-import ErrorBox from 'shared/form/ErrorBox'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
 import BriefInviteAssessorsForm from 'marketplace/components/Brief/Assessors/BriefInviteAssessorsForm'
-import { setErrorMessage, clearErrorMessages } from 'marketplace/actions/appActions'
+import { loadBriefAssessors, handleBriefAssessorSubmit } from 'marketplace/actions/briefActions'
+import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
+import { setErrorMessage } from 'marketplace/actions/appActions'
 
-const AssessorsMax = 5
+const MaxAssessors = 5
 
 export class BriefAssessorsPage extends Component {
   constructor(props) {
     super(props)
-    this.state = { assessors: [] }
+    this.state = {}
+  }
+
+  componentWillMount() {
+    const briefId = this.props.match.params.briefId
+    this.props.loadInitialData(briefId)
+    this.props.addAssessor(this.props.model)
   }
 
   onSubmitClicked = () => {
@@ -24,32 +31,13 @@ export class BriefAssessorsPage extends Component {
   }
 
   handleSubmit = data => {
-    this.props.clearErrorMessages()
-    this.setState(curState => {
-      const newState = { ...curState }
-      if (newState.assessors.length === AssessorsMax) {
-        this.props.setErrorMessage('You cannot add any more evaluators')
-      } else if (newState.assessors.includes(data.email_address)) {
-        this.props.setErrorMessage(`${data.email_address} has already been invited`)
-      } else {
-        newState.assessors.push(data.email_address)
-        this.props.reset(this.props.model)
-      }
-      return newState
-    })
-  }
-
-  handleRemoveClick = (email, e) => {
-    e.preventDefault()
-    this.props.clearErrorMessages()
-    this.setState(curState => ({
-      assessors: curState.assessors.filter(item => item !== email)
-    }))
+    const briefId = this.props.match.params.briefId
+    this.props.handleBriefAssessorSubmit(briefId, data, this.props.assessors)
+    window.scrollTo(0, 0)
   }
 
   render() {
-    const { currentlySending } = this.props
-
+    const { currentlySending, loadSuccess } = this.props
     let hasFocused = false
     const setFocus = e => {
       if (!hasFocused) {
@@ -58,36 +46,51 @@ export class BriefAssessorsPage extends Component {
       }
     }
 
-    return (
-      <div>
-        {currentlySending && <LoadingIndicatorFullPage />}
-        {!currentlySending ? (
+    if (currentlySending) return <LoadingIndicatorFullPage />
+    if (loadSuccess) {
+      return (
+        <div className="col-sm-push-2 col-sm-8 col-xs-12">
           <BriefInviteAssessorsForm
             setFocus={setFocus}
             handleSubmit={this.handleSubmit}
-            handleRemoveClick={this.handleRemoveClick}
-            assessors={this.state.assessors}
-            remainingCount={AssessorsMax - this.state.assessors.length}
+            maxAssessors={MaxAssessors}
             submitClicked={this.onSubmitClicked}
             {...this.props}
           />
-        ) : (
-          <ErrorBox title="There was a problem loading the brief" setFocus={setFocus} />
-        )}
-      </div>
+        </div>
+      )
+    }
+
+    return (
+      <AUpageAlert as="error">
+        <h4>There was a problem loading the brief evaluators </h4>
+      </AUpageAlert>
     )
   }
 }
 
 const mapStateToProps = state => ({
   ...formProps(state, 'briefInviteAssessorsForm'),
-  currentlySending: state.app.currentlySending
+  currentlySending: state.brief.currentlySending,
+  assessors: state.brief.briefAssessors,
+  submittedAssessors: state.brief.submittedBriefAssessors,
+  loadSuccess: state.brief.loadBriefAssessorsSuccess,
+  briefAssessorSubmitSuccess: state.brief.briefAssessorSubmitSuccess
 })
 
 const mapDispatchToProps = dispatch => ({
-  setErrorMessage: message => dispatch(setErrorMessage(message)),
-  clearErrorMessages: () => dispatch(clearErrorMessages()),
-  reset: model => dispatch(actions.reset(model))
+  loadInitialData: briefId => dispatch(loadBriefAssessors(briefId)),
+  addAssessor: (model, count) => {
+    if (count >= MaxAssessors) {
+      dispatch(setErrorMessage('You cannot invite any more evaluators'))
+    } else {
+      dispatch(actions.push(`${model}.assessors`, { email_address: '', view_day_rates: false }))
+    }
+  },
+  removeAssessor: (model, index) => dispatch(actions.remove(`${model}.assessors`, index)),
+  handleBriefAssessorSubmit: (briefId, data, assessors) => {
+    dispatch(handleBriefAssessorSubmit(briefId, data, assessors))
+  }
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BriefAssessorsPage))
