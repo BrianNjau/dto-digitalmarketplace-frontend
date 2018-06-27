@@ -88,10 +88,10 @@ const BriefInviteAssessorsForm = ({
             </div>
             <Textfield
               model={`${model}.assessors.[${i}].email_address`}
-              name={`email_address-[${i}]`}
-              id={`email_address-[${i}]`}
+              name={`email_address-${i}`}
+              id={`email_address-${i}`}
               type="email"
-              htmlFor={`email_address-[${i}]`}
+              htmlFor={`email_address-${i}`}
               label="Email address"
               validators={{ required, validEmail }}
               messages={{
@@ -102,14 +102,14 @@ const BriefInviteAssessorsForm = ({
             <span className="au-control-input au-control-input--full">
               <Control.checkbox
                 model={`${model}.assessors.[${i}].view_day_rates`}
-                id={`view_day_rates-[${i}]`}
-                name={`view_day_rates-[${i}]`}
+                id={`view_day_rates-${i}`}
+                name={`view_day_rates-${i}`}
                 value="no"
                 mapProps={{
                   className: 'au-control-input__input'
                 }}
               />
-              <label className="au-control-input__text" htmlFor={`view_day_rates-[${i}]`}>
+              <label className="au-control-input__text" htmlFor={`view_day_rates-${i}`}>
                 Allow this evaluator to see the candidate’s day rates.
               </label>
             </span>
