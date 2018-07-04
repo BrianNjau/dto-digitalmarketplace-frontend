@@ -177,11 +177,6 @@ export const handleBriefAssessorSubmit = (briefId, data, assessors) => dispatch 
     dispatch(setErrorMessage('There is a duplicate email address'))
     return
   }
-  const duplicates = data.assessors.filter(a => assessors.filter(b => a.email_address === b.email_address).length)
-  if (duplicates.length) {
-    dispatch(setErrorMessage(`${duplicates[0].email_address} has already been invited`))
-    return
-  }
 
   dispatch(sendingBriefRequest(true))
   dmapi({
