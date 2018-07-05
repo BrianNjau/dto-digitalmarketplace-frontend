@@ -75,7 +75,7 @@ const BriefInviteAssessorsForm = ({
         onSubmit={data => handleSubmit(data)}
         validators={{
           assessors: values => {
-            const emailAddresses = values.map(a => a.email_address)
+            const emailAddresses = values && values.map(a => a.email_address) || []
             return !emailAddresses.some((e, index) => emailAddresses.indexOf(e) !== index)
           }
         }}
