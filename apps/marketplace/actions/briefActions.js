@@ -169,15 +169,8 @@ export const handleBriefAssessorSubmitSuccess = response => ({
   briefAssessors: response.data
 })
 
-export const handleBriefAssessorSubmit = (briefId, data, assessors) => dispatch => {
+export const handleBriefAssessorSubmit = (briefId, data) => dispatch => {
   dispatch(clearErrorMessages())
-
-  const emailAddresses = data.assessors.map(a => a.email_address)
-  if (emailAddresses.some((e, index) => emailAddresses.indexOf(e) !== index)) {
-    dispatch(setErrorMessage('There is a duplicate email address'))
-    return
-  }
-
   dispatch(sendingBriefRequest(true))
   dmapi({
     url: `/brief/${briefId}/assessors`,

@@ -69,7 +69,17 @@ const BriefInviteAssessorsForm = ({
         Invite evaluators
       </AUheading>
       <p className={styles.remainingCount}>{maxAssessors - assessors.length} invitations remaining</p>
-      <Form model={model} id="briefResponse" onSubmit={data => handleSubmit(data)}>
+      <Form
+        model={model}
+        id="briefResponse"
+        onSubmit={data => handleSubmit(data)}
+        validators={{
+          assessors: values => {
+            const emailAddresses = values.map(a => a.email_address)
+            return !emailAddresses.some((e, index) => emailAddresses.indexOf(e) !== index)
+          }
+        }}
+      >
         {briefInviteAssessorsForm.assessors.map((assessor, i) => (
           <div className={styles.assessorContainer} key={i}>
             <div className="row">

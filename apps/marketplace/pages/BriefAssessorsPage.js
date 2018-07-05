@@ -88,9 +88,7 @@ const mapDispatchToProps = dispatch => ({
     }
   },
   removeAssessor: (model, index) => dispatch(actions.remove(`${model}.assessors`, index)),
-  handleBriefAssessorSubmit: (briefId, data, assessors) => {
-    dispatch(handleBriefAssessorSubmit(briefId, data, assessors))
-  }
+  handleBriefAssessorSubmit: (briefId, data) => dispatch(handleBriefAssessorSubmit(briefId, data))
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BriefAssessorsPage))
