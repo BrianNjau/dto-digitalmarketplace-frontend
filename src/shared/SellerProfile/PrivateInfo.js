@@ -132,7 +132,7 @@ const PrivateInfo = (props) => {
             <Row title="Pricing" show={!isEmpty(pricing)}>
               {Object.keys(pricing).map((key, i) => {
                 return (
-                  <div key={key}>{`${key}: $${pricing[key]['maxPrice']} (${price_statuses[key]})`}</div>
+                  <div key={key}>{`${key}: $${pricing[key]['maxPrice']}`}{all_domains.length > 0 && ` (${price_statuses[key]})`}</div>
                 )
               })}
             </Row>
