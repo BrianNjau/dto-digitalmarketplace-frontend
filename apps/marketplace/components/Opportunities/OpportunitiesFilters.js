@@ -17,6 +17,7 @@ export class OpportunitiesFiltersComponent extends BaseForm {
     this.state = {
       statusAccordionOpen: props.statusAccordionOpen,
       locationAccordionOpen: props.locationAccordionOpen,
+      typeAccordionOpen: props.typeAccordionOpen,
       mobileAccordionOpen: props.mobileAccordionOpen
     }
     this.handleFilterCancelClick = this.handleFilterCancelClick.bind(this)
@@ -67,12 +68,16 @@ export class OpportunitiesFiltersComponent extends BaseForm {
       case 'location':
         this.setState({ locationAccordionOpen: isOpen })
         break
+      case 'type':
+        this.setState({ typeAccordionOpen: isOpen })
+        break
       case 'mobile':
         this.setState({ mobileAccordionOpen: isOpen })
         break
       case 'all':
         this.setState({ statusAccordionOpen: isOpen })
         this.setState({ locationAccordionOpen: isOpen })
+        this.setState({ typeAccordionOpen: isOpen })
         this.setState({ mobileAccordionOpen: isOpen })
         break
       default:
@@ -138,7 +143,7 @@ export class OpportunitiesFiltersComponent extends BaseForm {
         initialState={this.formValues}
       >
         <div className="row">
-          <div className={`col-md-6 col-lg-offset-1 col-lg-5 col-sm-12 ${styles.filtersSection} ${styles.hideMobile}`}>
+          {/* <div className={`col-md-6 col-lg-offset-1 col-lg-5 col-sm-12 ${styles.filtersSection} ${styles.hideMobile}`}>
             <ul className="au-link-list au-link-list--inline">
               <li className={styles.filterContainer}>
                 <TypeFilterControl
@@ -165,6 +170,51 @@ export class OpportunitiesFiltersComponent extends BaseForm {
                 />
               </li>
             </ul>
+          </div> */}
+          <div className={`col-lg-offset-3 col-md-3 col-sm-12 ${styles.hideMobile}`}>
+            <AUaccordion
+              header={`Type ${
+                this.getActiveFilterCount('type') > 0 ? `• ${this.getActiveFilterCount('type')}` : ''
+              }`}
+              open={this.state.typeAccordionOpen}
+              onOpen={() => {
+                this.changeAccordion('type', true)
+              }}
+              onClose={() => {
+                this.changeAccordion('type', false)
+              }}
+            >
+              <div className="au-accordion__body" id="accordion-default" aria-hidden="false">
+                <div className={styles.inputGroup}>
+                  <AUheading size="sm" level="3">
+                    Type of opportunity
+                  </AUheading>
+                  {Object.keys(this.props.opportunitiesFilterForm.type).map(type => (
+                    <div className={styles.checkbox} key={type}>
+                      <CheckboxDetailsField
+                        model={`${model}.type.${type}`}
+                        id={type}
+                        name={type}
+                        label={type}
+                        detailsModel={model}
+                        messages={{}}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <span className={styles.cancelLink}>
+                  <a href="#cancel" data-type="type" onClick={this.handleFilterCancelClick}>
+                    Cancel
+                  </a>
+                </span>
+                <span className={styles.applyFilters}>
+                  <a href="#apply" data-type="type" onClick={this.handleFilterApplyClick}>
+                    Apply filters
+                  </a>
+                </span>
+                <div />
+              </div>
+            </AUaccordion>
           </div>
           <div className={`col-md-3 col-sm-12 ${styles.hideMobile}`}>
             <AUaccordion
@@ -290,7 +340,7 @@ export class OpportunitiesFiltersComponent extends BaseForm {
               }}
             >
               <div className="au-accordion__body" id="accordion-default" aria-hidden="false">
-                <div className={styles.inputGroup}>
+                {/* <div className={styles.inputGroup}>
                   <AUheading size="sm" level="3">
                     Type of opportunity
                   </AUheading>
@@ -324,6 +374,23 @@ export class OpportunitiesFiltersComponent extends BaseForm {
                       messages={{}}
                     />
                   </div>
+                </div> */}
+                <div className={styles.inputGroup}>
+                  <AUheading size="sm" level="3">
+                    Type of opportunity
+                  </AUheading>
+                  {Object.keys(this.props.opportunitiesFilterForm.type).map(type => (
+                    <div className={styles.checkbox} key={type}>
+                      <CheckboxDetailsField
+                        model={`${model}.type.${type}`}
+                        id={type}
+                        name={type}
+                        label={type}
+                        detailsModel={model}
+                        messages={{}}
+                      />
+                    </div>
+                  ))}
                 </div>
                 <div className={styles.inputGroup}>
                   <AUheading size="sm" level="3">
@@ -406,6 +473,7 @@ OpportunitiesFiltersComponent.propTypes = {
   getOpportunities: PropTypes.func.isRequired,
   statusAccordionOpen: PropTypes.bool.isRequired,
   locationAccordionOpen: PropTypes.bool.isRequired,
+  typeAccordionOpen: PropTypes.bool.isRequired,
   mobileAccordionOpen: PropTypes.bool.isRequired,
   model: PropTypes.string.isRequired,
   updateQueryString: PropTypes.func,
