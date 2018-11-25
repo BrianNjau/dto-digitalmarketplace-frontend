@@ -145,9 +145,7 @@ export class OpportunitiesFiltersComponent extends BaseForm {
         <div className="row">
           <div className={`col-lg-offset-3 col-md-3 col-sm-12 ${styles.hideMobile}`}>
             <AUaccordion
-              header={`Type ${
-                this.getActiveFilterCount('type') > 0 ? `• ${this.getActiveFilterCount('type')}` : ''
-              }`}
+              header={`Type ${this.getActiveFilterCount('type') > 0 ? `• ${this.getActiveFilterCount('type')}` : ''}`}
               open={this.state.typeAccordionOpen}
               onOpen={() => {
                 this.changeAccordion('type', true)
