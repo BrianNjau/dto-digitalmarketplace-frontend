@@ -8,7 +8,6 @@ import { changeForm, loadOpportunities } from 'marketplace/actions/opportunities
 import CheckboxDetailsField from 'shared/form/CheckboxDetailsField'
 import AUaccordion from '@gov.au/accordion/lib/js/react.js'
 import AUheading from '@gov.au/headings/lib/js/react.js'
-import TypeFilterControl from './TypeFilterControl'
 import styles from './Opportunities.scss'
 
 export class OpportunitiesFiltersComponent extends BaseForm {
