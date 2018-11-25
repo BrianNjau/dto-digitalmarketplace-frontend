@@ -143,34 +143,6 @@ export class OpportunitiesFiltersComponent extends BaseForm {
         initialState={this.formValues}
       >
         <div className="row">
-          {/* <div className={`col-md-6 col-lg-offset-1 col-lg-5 col-sm-12 ${styles.filtersSection} ${styles.hideMobile}`}>
-            <ul className="au-link-list au-link-list--inline">
-              <li className={styles.filterContainer}>
-                <TypeFilterControl
-                  name="Outcomes"
-                  filter="outcomes"
-                  model={`${model}.type.outcomes`}
-                  submitForm={this.handleTypeFilterSubmit}
-                />
-              </li>
-              <li className={styles.filterContainer}>
-                <TypeFilterControl
-                  name="Training"
-                  filter="training"
-                  model={`${model}.type.training`}
-                  submitForm={this.handleTypeFilterSubmit}
-                />
-              </li>
-              <li className={styles.filterContainer}>
-                <TypeFilterControl
-                  name="Specialists"
-                  filter="specialists"
-                  model={`${model}.type.specialists`}
-                  submitForm={this.handleTypeFilterSubmit}
-                />
-              </li>
-            </ul>
-          </div> */}
           <div className={`col-lg-offset-3 col-md-3 col-sm-12 ${styles.hideMobile}`}>
             <AUaccordion
               header={`Type ${
@@ -340,41 +312,6 @@ export class OpportunitiesFiltersComponent extends BaseForm {
               }}
             >
               <div className="au-accordion__body" id="accordion-default" aria-hidden="false">
-                {/* <div className={styles.inputGroup}>
-                  <AUheading size="sm" level="3">
-                    Type of opportunity
-                  </AUheading>
-                  <div className={styles.checkbox}>
-                    <CheckboxDetailsField
-                      model={`${model}.type.outcomes`}
-                      id="outcomes"
-                      name="outcomes"
-                      label="Outcomes"
-                      detailsModel={model}
-                      messages={{}}
-                    />
-                  </div>
-                  <div className={styles.checkbox}>
-                    <CheckboxDetailsField
-                      model={`${model}.type.training`}
-                      id="training"
-                      name="training"
-                      label="Training"
-                      detailsModel={model}
-                      messages={{}}
-                    />
-                  </div>
-                  <div className={styles.checkbox}>
-                    <CheckboxDetailsField
-                      model={`${model}.type.specialists`}
-                      id="specialists"
-                      name="specialists"
-                      label="Specialists"
-                      detailsModel={model}
-                      messages={{}}
-                    />
-                  </div>
-                </div> */}
                 <div className={styles.inputGroup}>
                   <AUheading size="sm" level="3">
                     Type of opportunity
