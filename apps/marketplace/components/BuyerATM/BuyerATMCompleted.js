@@ -16,20 +16,12 @@ const BuyerATMCompleted = props => (
     <AUheading level="2" size="lg">
       What happens next?
     </AUheading>
-    <ul>
-      <li>
-        While your opportunity is live, you&apos;ll need to{' '}
-        <a href="https://marketplace1.zendesk.com/hc/en-gb/articles/360000575036#while-open" rel="external">
-          answer seller questions
-        </a>.
-      </li>
-      <li>
-        We will send an email to <strong>{props.contactEmail}</strong> when the opportunity closes, so you can download
-        responses.
-      </li>
-    </ul>
     <p>
-      If you need help at any time, <a href="/contact-us">contact us</a>.
+      While your opportunity is live, you&apos;ll need to{' '}
+      <a href="https://marketplace1.zendesk.com/hc/en-gb/articles/360000575036#while-open" rel="external">
+        answer seller questions
+      </a>. When it closes, we will send an email to <strong>{props.contactEmail}</strong> so you can download
+      responses. If you need help any time, <a href="/contact-us">contact us</a>.
     </p>
     <br />
     <Feedback
