@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import AUpageAlert from '@gov.au/page-alerts/lib/js/react.js'
 import AUheading from '@gov.au/headings/lib/js/react.js'
+import Feedback from 'marketplace/components/Feedback/Feedback'
 import format from 'date-fns/format'
-import { rootPath } from 'marketplace/routes'
-import styles from './BuyerATMCompleted.scss'
 
 const BuyerATMCompleted = props => (
   <div>
@@ -32,21 +31,26 @@ const BuyerATMCompleted = props => (
     <p>
       If you need help at any time, <a href="/contact-us">contact us</a>.
     </p>
-    <p className={styles.buttons}>
-      <a href={`${rootPath}/brief/${props.briefId}/overview/atm`} className="au-btn au-btn--secondary">
-        Return to overview
-      </a>
-      <a href={`${rootPath}/digital-marketplace/opportunities/${props.briefId}`} className="au-btn">
-        View live opportunity
-      </a>
-    </p>
+    <br />
+    <Feedback
+      app={props.app}
+      handleSubmit={props.handleFeedbackSubmit}
+      difficultyQuestion="How easy or difficult was it for you to publish this opportunity?"
+      commentQuestion="How would you improve publishing an opportunity?"
+      objectAction="responded_to"
+    />
   </div>
 )
 
+BuyerATMCompleted.defaultProps = {
+  handleFeedbackSubmit: () => {}
+}
+
 BuyerATMCompleted.propTypes = {
-  briefId: PropTypes.string.isRequired,
   closingDate: PropTypes.string.isRequired,
-  contactEmail: PropTypes.string.isRequired
+  contactEmail: PropTypes.string.isRequired,
+  app: PropTypes.object.isRequired,
+  handleFeedbackSubmit: PropTypes.func
 }
 
 export default BuyerATMCompleted
