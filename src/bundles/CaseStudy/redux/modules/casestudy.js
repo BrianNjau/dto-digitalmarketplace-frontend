@@ -74,7 +74,7 @@ export const assignToAssessorSave = (values) => {
     } = state;
 
     let toSave = {
-      assessor_user_id
+      assessor_user_id: assessor_user_id.value
     } = values
     return api(state.meta.url_case_study_assessment_add, {
       method: 'POST',

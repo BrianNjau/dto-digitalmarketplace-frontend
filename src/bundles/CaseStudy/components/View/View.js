@@ -74,9 +74,9 @@ class View extends React.Component {
             <div className="col-md-12">
               <LocalForm onSubmit={onAssignToAssessorSubmit} initialState={assignToAssessorForm}>
                 <fieldset>
-                  <legend id="q-devices-owned">Assign to assessor</legend>
+                  <legend><h4 id="q-devices-owned">Assign to assessor</h4></legend>
                   <p>
-                    <label htmlFor="assessor_user_id">User</label>
+                    <label htmlFor="assessor_user_id">Admin user list</label>
                     <Control.select model=".assessor_user_id" id="assessor_user_id">
                       <option value="0">None</option>
                       {Object.keys(meta.adminUserNameIdList).map(function(key,index) { 
@@ -111,9 +111,9 @@ class View extends React.Component {
                   <p>
                     <label htmlFor="status">Status</label>
                     <Control.select model=".status" id="status">
-                      <option value="unassessed">unassessed</option>
-                      <option value="approved">approved</option>
-                      <option value="rejected">rejected</option>
+                      <option value="unassessed">Unassessed</option>
+                      <option value="approved">Approved</option>
+                      <option value="rejected">Rejected</option>
                     </Control.select>
                   </p>
                 </fieldset>
@@ -175,7 +175,7 @@ class View extends React.Component {
               </section>
               {project_links && project_links.length > 0 && (
                 <section styleName="view.project">
-                  <h2 className="au-display-md">Project Links</h2>
+                  <h2 className="au-display-md">Project links</h2>
                   <ul>
                     {project_links.map((item, i) => <li key={i}>
                       {typeof item == 'object' ?
