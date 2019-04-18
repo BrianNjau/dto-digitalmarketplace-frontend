@@ -8,9 +8,6 @@ exports[`CaseStudyViewWidget renders without errrors 1`] = `
   <div
     className="row"
   />
-  <div
-    className="row"
-  />
   <header
     className="row"
   >
@@ -137,5 +134,9 @@ exports[`CaseStudyViewWidget renders without errrors 1`] = `
       </article>
     </div>
   </div>
+  <hr />
+  <div
+    className="row"
+  />
 </section>
 `;

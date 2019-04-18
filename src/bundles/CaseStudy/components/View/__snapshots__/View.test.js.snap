@@ -8,9 +8,6 @@ exports[`View with required attributes 1`] = `
   <div
     className="row"
   />
-  <div
-    className="row"
-  />
   <header
     className="row"
   >
@@ -36,21 +33,6 @@ exports[`View with required attributes 1`] = `
           <p>
             by 
           </p>
-        </div>
-                <div
-          className="col-xs-12 col-sm-5 actions"
-        >
-          <a
-            href="#"
-          >
-            Edit case study
-          </a>
-          <button
-            className="button-secondary"
-            onClick={[Function]}
-          >
-            Delete
-          </button>
         </div>
       </div>
     </div>
@@ -155,6 +137,10 @@ exports[`View with required attributes 1`] = `
       </article>
     </div>
   </div>
+  <hr />
+  <div
+    className="row"
+  />
 </section>
 `;
 
@@ -166,9 +152,6 @@ exports[`View with required attributes and meta links 1`] = `
   <div
     className="row"
   />
-  <div
-    className="row"
-  />
   <header
     className="row"
   >
@@ -194,21 +177,6 @@ exports[`View with required attributes and meta links 1`] = `
           <p>
             by 
           </p>
-        </div>
-        <div
-          className="col-xs-12 col-sm-5 actions"
-        >
-          <a
-            href="link/to/edit"
-          >
-            Edit case study
-          </a>
-          <button
-            className="button-secondary"
-            onClick={[Function]}
-          >
-            Delete
-          </button>
         </div>
       </div>
     </div>
@@ -313,5 +281,9 @@ exports[`View with required attributes and meta links 1`] = `
       </article>
     </div>
   </div>
+  <hr />
+  <div
+    className="row"
+  />
 </section>
 `;
