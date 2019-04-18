@@ -49,7 +49,7 @@ class AssessmentList extends React.Component {
 
     return (
       <div>
-        <input id="keyword" type="text" size="30" placeholder="Id or name" onChange={onKeywordChange} ref={ref => this.searchFieldRef = ref }/>
+        <input id="keyword" type="text" size="30" placeholder="Seller id or name" onChange={onKeywordChange} ref={ref => this.searchFieldRef = ref }/>
         <hr/>
       { 
         casestudies.map((cs, i) =>
@@ -63,7 +63,7 @@ class AssessmentList extends React.Component {
           </div>
           <span key={cs.id}>
             <div className="row">
-              <div className="col-md-2">{cs.name}(#{cs.supplier_code})</div>
+              <div className="col-md-2">{cs.name} (#{cs.supplier_code})</div>
               <div className="col-md-4"><a href={`casestudy/${cs.id}/assessment?role=manager`}>{cs.data.title}(#{cs.id})</a></div>
               <div className="col-md-2">{cs.data.service}</div>
               <div className="col-md-2">{cs.assessment_count}</div>
@@ -137,7 +137,7 @@ const mapDispatchToProps = dispatch => {
     },
     onLoad: (supplier_code) => {
       dispatch(searchAssessments(supplier_code));
-    } 
+    }
   }
 }
 

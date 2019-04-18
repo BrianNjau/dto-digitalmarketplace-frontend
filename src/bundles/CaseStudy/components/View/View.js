@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { LocalForm, Control } from 'react-redux-form';
-import { assessmentSave, assignToAssessorSave } from '../../redux/modules/casestudy'
+import { assessmentSave, assignToAssessorSave, deleteCaseStudyAssessment } from '../../redux/modules/casestudy'
+import { updateCaseStudyStatus } from '../../redux/modules/casestudies'
 
 import isEmpty from 'lodash/isEmpty';
 
@@ -49,7 +50,11 @@ class View extends React.Component {
       returnLink = null,
       domain = {},
       onAssessmentSubmit,
-      onAssignToAssessorSubmit
+      onAssignToAssessorSubmit,
+      onApproveClick,
+      onRejectClick,
+      onResetUnassessedClick,
+      onDeleteCaseStudyAssessment
     } = this.props;
     let {
       
@@ -74,50 +79,96 @@ class View extends React.Component {
             <div className="col-md-12">
               <LocalForm onSubmit={onAssignToAssessorSubmit} initialState={assignToAssessorForm}>
                 <fieldset>
-                  <legend><h4 id="q-devices-owned">Assign to assessor</h4></legend>
+                  <legend><h1 className="au-display-xl">Case Study Management</h1></legend>
+                  <h4 id="q-devices-owned">Assign an admin user to assess this case study</h4>
                   <p>
-                    <label htmlFor="assessor_user_id">Admin user list</label>
                     <Control.select model=".assessor_user_id" id="assessor_user_id">
-                      <option value="0">None</option>
+                      <option value="" disabled selected>Select an Admin User</option>
                       {Object.keys(meta.adminUserNameIdList).map(function(key,index) { 
                         return <option value={key}>{meta.adminUserNameIdList[key]}</option>;})
                       }
                     </Control.select>
                   </p>
-                  <legend id="q-devices-owned">List of Assessments, delete unassessed ones</legend>
-                  <legend id="q-devices-owned">Approve or reject</legend>
+                  <button className="button-save">Save</button>
                 </fieldset>
-                <button className="button-save">Save</button>
               </LocalForm>
-            </div>
-          )}
-        </div>
-        <div className="row">
-          {meta && meta.role === 'assessor' && (
-            <div className="col-md-12">
-              <LocalForm onSubmit={onAssessmentSubmit} initialState={assessmentForm}>
+              <LocalForm>
                 <fieldset>
-                  <legend id="q-devices-owned">Select criterias to approve</legend>
-                  {domain.domain_criterias.map(dc =>
-                    <span key={dc.id}>
-                      <Control.checkbox model={'.approved_criteria.' + dc.id} id={dc.id} value={dc.id} />
-                      <label htmlFor={dc.id}>{dc.name}</label>
-                    </span>
-                  )}
-                  <p>
-                    <label htmlFor="comment">Comment</label>
-                    <Control.textarea model=".comment" id="comment" />
-                  </p>
-                  <p>
-                    <label htmlFor="status">Status</label>
-                    <Control.select model=".status" id="status">
-                      <option value="unassessed">Unassessed</option>
-                      <option value="approved">Approved</option>
-                      <option value="rejected">Rejected</option>
-                    </Control.select>
-                  </p>
+                <legend id="q-devices-owned"><h3>Case study assessments</h3></legend>
+                  {
+                    meta.casestudies.map((cs, i) =>
+                      <div>
+                        <span key={cs.id}>
+                        <div className="row">
+                          <div>
+                            <div className="col-md-2"><b>Assessors</b></div>
+                            <div className="col-md-2"><b>Result</b></div>
+                            <div className="col-md-4"><b>Assessor comment</b></div>
+                            <div className='col-md-2'><b>Delete unassessed</b></div>
+                          </div>
+                        </div>
+                        <hr/>
+                        {cs.assessment_results && cs.assessment_count > 0 ? cs.assessment_results.map(ar =>
+                          <div key={ar.id} className="row">
+                             <div className="col-md-2">{ar.username}</div>
+                             <div className="col-md-2">{ar.status}</div>
+                             <div className="col-md-4">{ar.comment}</div>
+                             <div className='col-md-2'> 
+                              {(() => {switch (ar.status) {
+                                    case "rejected":   return <a href="#" className="button-delete" hidden="true" >Delete</a>;
+                                    case "approved":   return <a href="#" className="button-delete" hidden="true">Delete</a>;
+                                    case "unassessed":   return <a href="#" className="button-delete" onClick={e =>{
+                                      e.preventDefault();
+                                      onDeleteCaseStudyAssessment(ar.id);
+                                    }} name="deleteCSA">Delete</a>;
+                                  }})()} 
+                             </div>
+                          </div>
+                          ) : <i>no assessments</i>}
+                        <hr/>
+                      </span>  
+                      </div>
+                    )
+                  }
                 </fieldset>
-                <button className="button-save">Save</button>
+              </LocalForm>
+              <LocalForm>
+                <fieldset>
+                  <div>
+                    <legend id="q-devices-owned"><h3>Change case study status</h3></legend>
+                      {
+                        meta.casestudies.map((cs, i) =>
+                          <div>
+                            <span key={cs.id}>
+                              <div className="row">
+                                <div className="col-md-2">
+                                  <a href="#" onClick={e => {
+                                    e.preventDefault();
+                                    onApproveClick(cs.id);
+                                  }} name="approve">Approve</a>
+                                </div>
+                                <div className="col-md-2">
+                                <a href="#" onClick={e => {
+                                  e.preventDefault();
+                                  onRejectClick(cs.id);
+                                }} name="reject"> Reject </a>
+                                </div>
+                                <div className="col-md-2">
+                                <a href="#" onClick={e => {
+                                  e.preventDefault();
+                                  onResetUnassessedClick(cs.id);
+                                }} name="unassessed"> Unassessed </a>
+                              </div>
+                              </div>
+                              <br/>
+                              <p>Case study's current status: <b>{cs.status.toUpperCase()}</b></p>
+                              <hr/>
+                            </span>
+                          </div>
+                        )
+                      }
+                    </div>
+                  </fieldset>
               </LocalForm>
             </div>
           )}
@@ -126,7 +177,6 @@ class View extends React.Component {
           <div className="col-xs-12">
             <h1 className="au-display-xl" tabIndex="-1">{title}</h1>
           </div>
-
           <div className="meta col-xs-12">
             <div className="row">
               <div className="col-xs-12 col-sm-7">
@@ -194,6 +244,37 @@ class View extends React.Component {
             </article>
           </div>
         </div>
+        <hr/>
+        <div className="row">
+          {meta && meta.role === 'assessor' && (
+            <div className="col-md-12">
+              <LocalForm onSubmit={onAssessmentSubmit} initialState={assessmentForm}>
+                <fieldset>
+                  <legend id="q-devices-owned"><h4>Select criterias to approve</h4></legend>
+                  {domain.domain_criterias.map(dc =>
+                    <span key={dc.id}>
+                      <Control.checkbox model={'.approved_criteria.' + dc.id} id={dc.id} value={dc.id} />
+                      <label htmlFor={dc.id}>{dc.name}</label>
+                    </span>
+                  )}
+                  <p>
+                    <label htmlFor="comment">Comment</label>
+                    <Control.textarea model=".comment" id="comment" />
+                  </p>
+                  <p>
+                    <label htmlFor="status">Status</label>
+                    <Control.select model=".status" id="status">
+                      <option value="unassessed">Unassessed</option>
+                      <option value="approved">Approved</option>
+                      <option value="rejected">Rejected</option>
+                    </Control.select>
+                  </p>
+                </fieldset>
+                <button className="button-save">Save</button>
+              </LocalForm>
+            </div>
+          )}
+        </div>
       </section>
     )
   }
@@ -215,21 +296,38 @@ View.propTypes = {
   ])
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, casestudies, ownProps) => {
   return {
     ...state.casestudy,
     ...ownProps,
-    meta: state.meta
+    meta: state.meta,
+    casestudies,
+    onApproveClick: () => {},
+    onRejectClick: () => {},
+    onResetUnassessedClick: () => {},
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
+    onApproveClick: (id) => {
+      dispatch(updateCaseStudyStatus(id, 'approved'))
+    },
+    onRejectClick: (id) => {
+      dispatch(updateCaseStudyStatus(id, 'rejected'))
+
+    },
+    onResetUnassessedClick: (id) => {
+      dispatch(updateCaseStudyStatus(id, 'unassessed'))
+    },
     onAssessmentSubmit: (values) => {
       dispatch(assessmentSave(values))
     },
     onAssignToAssessorSubmit: (values) => {
       dispatch(assignToAssessorSave(values))
+    },
+    onDeleteCaseStudyAssessment: (values) => {
+      dispatch(deleteCaseStudyAssessment(values))
     }
   }
 };

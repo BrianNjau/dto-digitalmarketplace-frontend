@@ -44,7 +44,7 @@ export const updateCaseStudyStatus = (casestudy_id, status) => {
       casestudy_id,
       status
     }
-    return api(state.meta.url_case_study_status_update[casestudy_id], {
+     return api(`/admin/casestudy-assessment/${casestudy_id}`, {
       method: 'PUT',
       body: JSON.stringify(toSave),
       headers: {
