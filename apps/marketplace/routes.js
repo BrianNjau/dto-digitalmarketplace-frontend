@@ -24,6 +24,7 @@ import BuyerATMFlowPage from './pages/BuyerATMFlowPage'
 import BuyerSpecialistCreatePage from './pages/BuyerSpecialistCreatePage'
 import BuyerSpecialistCompletedPage from './pages/BuyerSpecialistCompletedPage'
 import BuyerSpecialistFlowPage from './pages/BuyerSpecialistFlowPage'
+import BuyerTrainingCreatePage from './pages/BuyerTrainingCreatePage'
 import BriefOutcomeChoicePage from './pages/BriefOutcomeChoicePage'
 import EditTeamFlowPage from './pages/Teams/EditTeamFlowPage'
 import OpportunityPage from './pages/OpportunityPage'
@@ -113,6 +114,7 @@ export const Routes = () => (
       component={BuyerSpecialistFlowPage}
     />
     <PrivateRoute restrictedTo="buyer" path={`${rootPath}/outcome-choice`} component={BriefOutcomeChoicePage} />
+    <PrivateRoute restrictedTo="buyer" path={`${rootPath}/buyer-training/create`} component={BuyerTrainingCreatePage} />
     <PrivateRoute restrictedTo="buyer" path={`${rootPath}/request-access/:permission`} component={RequestAccessPage} />
     <PrivateRoute
       restrictedTo="supplier"
