@@ -150,7 +150,7 @@ const OpportunityInfoCard = props => (
           !props.canRespond && (
             <div className={styles.invitedStatus}>
               <p>Only invited sellers can apply.</p>
-            </div>
+              </div>
           )}
         {props.isOpen &&
           props.loggedIn &&
@@ -162,18 +162,16 @@ const OpportunityInfoCard = props => (
           !props.isAssessedForCategory && (
             <span>
               <p className={styles.invitedStatus}>
-                Only sellers assessed and approved by the Marketplace in &quot;{props.category}&quot; can apply.
+              <h4 class="bottom_container"> Before you can apply</h4>
+                You must be approved in the  &quot;{props.category}&quot; before you can apply for this opportunities.
                 {props.isAwaitingDomainAssessment && (
                   <span> Your application for this category is currently being assessed.</span>
                 )}
                 {!props.isAwaitingDomainAssessment && props.hasEvidenceInDraftForCategory && (
                   <span>
-                    {' '}
-                    You currently have a{' '}
                     <a href={`${rootPath}/seller-assessment/${props.draftEvidenceId}/introduction`}>
-                      draft submission
-                    </a>{' '}
-                    for assessment in this category.
+                      Continue a request for assessment 
+                    </a>
                   </span>
                 )}
                 {!props.isAwaitingDomainAssessment &&
