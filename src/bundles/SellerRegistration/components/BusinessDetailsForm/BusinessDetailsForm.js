@@ -51,6 +51,7 @@ class BusinessDetailsForm extends BaseForm {
             model,
             returnLink,
             supplierCode,
+            supplierName,
             ABN,
             form,
             buttonText,
@@ -115,6 +116,8 @@ class BusinessDetailsForm extends BaseForm {
                           htmlFor="name"
                           label="Business name"
                           description="The business name you use on the Marketplace must be listed under your ABN. You can omit suffixes such as PTY or LTD"
+                          defaultValue={"hello"}
+                        //   defaultValue={supplierName}
                           validators={{required}}
                           messages={{
                               required: 'Business name is required',
@@ -322,6 +325,7 @@ const mapStateToProps = (state) => {
     return {
         supplierCode: (state.application && state.application.supplier_code),
         ABN: (state.application && state.application.abn),
+        supplierName: (state.application && state.application.supplierName),
         returnLink: state.businessDetailsForm && state.businessDetailsForm.returnLink,
         ...formProps(state, 'businessDetailsForm'),
         applicationErrors: state.application_errors
