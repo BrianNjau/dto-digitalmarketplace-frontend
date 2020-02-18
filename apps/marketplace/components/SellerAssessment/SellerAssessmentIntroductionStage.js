@@ -13,14 +13,8 @@ const SellerAssessmentIntroductionStage = props => (
       Marketplace. The information you submit will only be visible to the assessment team.
     </p>
     <p>
-      <strong>How long does assessment take?</strong>
-      <br />
-      The time we take to assess your criteria is dependent on volume, seasonal peaks, complex cases and incomplete
-      submissions. We will endeavour to assess your criteria in a reasonable timeframe.
-      <br />
-      <br />
-      If you submit your request for assessment within 2 days of the closing date, we cannot guarantee that you will be
-      assessed in time to respond.
+      <strong>Please note:</strong> The time we take to assess your criteria is dependent on volume, seasonal peaks,
+      complex cases and incomplete submissions. We will endeavour to assess your criteria in a reasonable timeframe.
     </p>
     <AUheadings level="2" size="lg">
       You will be asked for
