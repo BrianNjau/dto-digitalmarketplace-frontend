@@ -47,7 +47,16 @@ const SellerAssessmentView = props => (
     <AUheading level="2" size="lg">
       Evidence
     </AUheading>
-    
+
+    {/* {props[props.model].criteria.map(criteriaId => (
+      <React.Fragment key={criteriaId}>
+        <AUheading level="2" size="md">
+          Criteria
+        </AUheading>
+        <p className={styles.reviewText}>{getCriteriaName(criteriaId, props.meta.domain.criteria)}</p>
+        </React.Fragment>
+    ))}
+     */}
   </div>
 )
 
