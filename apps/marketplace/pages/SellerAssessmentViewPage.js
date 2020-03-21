@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadEvidenceData } from 'marketplace/actions/supplierActions'
+import { loadDomainData, loadEvidenceData} from 'marketplace/actions/supplierActions'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
 import formProps from 'shared/form/formPropsSelector'
 import SellerAssessmentView from 'marketplace/components/SellerAssessment/SellerAssessmentView'
@@ -15,8 +15,16 @@ class SellerAssessmentViewPage extends Component {
 
   componentDidMount() {
     if (this.props.match.params.evidenceId) {
-      this.getEvidenceData()
-      this.getDomainData()
+      this.getEvidenceData().then(data => this.getDomainData(data.domainId))
+    }
+  }
+
+  getDomainData(domainId) {
+    if (domainId) {
+      this.setState({
+        loading: true
+      })
+      this.props.loadDomainData(domainId).then(() => this.setState({ loading: false }))
     }
   }
 
@@ -33,12 +41,31 @@ class SellerAssessmentViewPage extends Component {
     this.setState({
       loading: true
     })
-    this.props.loadInitialData(this.props.match.params.evidenceId).then(() => {
+    return this.props.loadInitialData(this.props.match.params.evidenceId).then(response => {
+
       this.setState({
         loading: false
       })
-    })
-  }
+
+    })}
+
+  // componentDidMount() {
+  //   if (this.props.match.params.evidenceId) {
+  //     this.getEvidenceData()
+  //   }
+  // }
+
+  // getEvidenceData() {
+  //   this.setState({
+  //     loading: true
+  //   })
+  //   this.props.loadInitialData(this.props.match.params.evidenceId).then(() => {
+  //     this.setState({
+  //       loading: false
+  //     })
+  //   })
+  // }
+
 
   render() {
 
@@ -57,8 +84,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadInitialData: evidenceId => dispatch(loadEvidenceData(evidenceId))
-  // loadDomainData: domainId => dispatch(loadDomainData(domainId))
+  loadInitialData: evidenceId => dispatch(loadEvidenceData(evidenceId)),
+  loadDomainData: domainId => dispatch(loadDomainData(domainId))
 })
 
 export default connect(
