@@ -52,6 +52,7 @@ class SellerAssessmentViewPage extends Component {
 }
 
 const mapStateToProps = state => ({
+  ...formProps(state),
   domain: state.domain.domain,
   evidence: state.evidence
 })
