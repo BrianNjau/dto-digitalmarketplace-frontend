@@ -15,12 +15,7 @@ class SellerAssessmentViewPage extends Component {
 
   componentDidMount() {
     if (this.props.match.params.evidenceId) {
-      this.getEvidenceData().then(data => {
-         this.getDomainData(data.domainId)
-         console.log(data)
-      })
-      // this.getEvidenceData()
-      // this.getDomainData(domainId)
+      this.getEvidenceData().then(data => this.getDomainData(data.domainId))
     }
   }
 
