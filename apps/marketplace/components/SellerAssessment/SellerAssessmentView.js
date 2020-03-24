@@ -46,10 +46,8 @@ const SellerAssessmentView = props => (
     <AUheading level="2" size="lg">
       Evidence
     </AUheading>
-
   </div>
 )
-
 
 SellerAssessmentView.propTypes = {
   meta: PropTypes.object.isRequired

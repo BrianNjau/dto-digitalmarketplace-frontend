@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadDomainData, loadEvidenceData, saveEvidence} from 'marketplace/actions/supplierActions'
+import { loadDomainData, loadEvidenceData } from 'marketplace/actions/supplierActions'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
 import formProps from 'shared/form/formPropsSelector'
 import SellerAssessmentView from 'marketplace/components/SellerAssessment/SellerAssessmentView'
@@ -15,7 +15,12 @@ class SellerAssessmentViewPage extends Component {
 
   componentDidMount() {
     if (this.props.match.params.evidenceId) {
-      this.getEvidenceData().then(data => this.getDomainData(data.domainId))
+      this.getEvidenceData().then(data => {
+         this.getDomainData(data.domainId)
+         console.log(data)
+      })
+      // this.getEvidenceData()
+      // this.getDomainData(domainId)
     }
   }
 
@@ -33,19 +38,17 @@ class SellerAssessmentViewPage extends Component {
       loading: true
     })
     return this.props.loadInitialData(this.props.match.params.evidenceId).then(response => {
-
       this.setState({
         loading: false
       })
-
-    })}
+      return response.data
+    })
+  }
 
   render() {
-
     if (this.state.loading) {
       return <LoadingIndicatorFullPage />
     }
-
 
     return <SellerAssessmentView meta={{ domain: this.props.domain, evidence: this.props.evidence }} />
   }
