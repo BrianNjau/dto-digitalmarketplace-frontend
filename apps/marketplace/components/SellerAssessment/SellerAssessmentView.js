@@ -13,7 +13,7 @@ const SellerAssessmentView = props => (
     <AUdirectionLink link={`${rootPath}/seller-dashboard/categories`} text="back to dashboard" direction="left" />
 
     <AUheading level="1" size="xl">
-      Assessment
+      {props.meta.domain.name} Assessment
     </AUheading>
 
     {props.meta.evidence.status === 'assessed' && (
@@ -46,21 +46,27 @@ const SellerAssessmentView = props => (
     <AUheading level="2" size="lg">
       Evidence
     </AUheading>
-    {props.meta.domain.criteria.map(criteriaId => (
+    {/* <p> {props.meta.domain.criteria[0]}</p> */}
+    {/* <p> {props.meta.domain}</p> */}
+    {/* {props.meta.domain.criteria.map(criteriaId => (
       <React.Fragment key={criteriaId}>
         <AUheading level="2" size="md">
           Criteria
         </AUheading>
-        
-        {/* <p className={styles.reviewText}>{getCriteriaName(criteriaId, props.meta.domain.criteria)}</p> */}
         <AUheading level="2" size="md">
           Client
         </AUheading>
-        {/* <p className={styles.reviewText}>{props[props.model].evidence[criteriaId].client}</p> */}
         </React.Fragment>
-    ))}
+    ))} */}
   </div>
 )
+// const domain = this.props.meta.domain
+//     const criteriaNeeded = getCriteriaNeeded(
+//       domain.criteriaNeeded,
+//       domain.priceMaximum,
+//       this.props[this.props.model].maxDailyRate
+//     )
+
 
 SellerAssessmentView.propTypes = {
   meta: PropTypes.object.isRequired
