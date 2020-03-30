@@ -16,33 +16,75 @@ const SellerAssessmentView = props => (
       {props.meta.domain.name} Assessment
     </AUheading>
 
+    {props.evidence.status === 'assessed' && (
+      <p>
+        You cannot edit your request for approved categories. If you want to change your rate, please contact the
+        Digital Marketplace.
+      </p>
+    )}
+
+    {props.evidence.status === 'submitted' && (
+      <p>
+        You cannot edit your request once you&apos;ve submitted an request for assessment.
+        <br />
+        If you have an issue, <a href="/contact-us">contact our support team.</a>
+      </p>
+    )}
+
+    {props.evidence.status === 'rejected' && (
+      <p>
+        If your assessment is not approved, you can view the
+        <a href={`${rootPath}/seller-assessment/${props.evidence.id}/feedback/`}> feedback </a>
+        and submit another request.
+      </p>
+    )}
+
     <AUheading level="2" size="lg">
       Maximum daily rate
     </AUheading>
-    {/* <p>${props.meta.evidence.maxDailyRate} (including GST)</p> */}
+    <p>${props.evidence.maxDailyRate} (including GST)</p>
     <AUheading level="2" size="lg">
       Evidence
     </AUheading>
 
-    {props.evidence.criteria && props.evidence.criteria.map(criteriaId => (
-      <React.Fragment key={criteriaId}>
-        <AUheading level="2" size="md">
-          Criteria
-        </AUheading>
-        <AUheading level="2" size="md">
-          Client
-        </AUheading>
+    {props.evidence.criteria &&
+      props.evidence.criteria.map(criteriaId => (
+        <React.Fragment key={criteriaId}>
+          <AUheading level="2" size="md">
+            Criteria
+          </AUheading>
+          <p className={styles.reviewText}>{getCriteriaName(criteriaId, props.meta.domain.criteria)}</p>
+          <AUheading level="2" size="md">
+            Client
+          </AUheading>
+          <p className={styles.reviewText}>{props.evidence.evidence[criteriaId].client}</p>
+          <AUheading level="2" size="md">
+            Referee&apos;s name and number
+          </AUheading>
+          <p className={styles.reviewText}>
+            {props.evidence.evidence[criteriaId].refereeName}: {props.evidence.evidence[criteriaId].refereeNumber}
+          </p>
+          <AUheading level="2" size="md">
+            Project date
+          </AUheading>
+          <p className={styles.reviewText}>
+            {props.evidence.evidence[criteriaId].startDate} - {props.evidence.evidence[criteriaId].endDate}
+          </p>
+          <AUheading level="2" size="md">
+            Background
+          </AUheading>
+          <p className={styles.reviewText}>{props.evidence.evidence[criteriaId].background}</p>
+          <AUheading level="2" size="md">
+            Evidence of meeting the criteria
+          </AUheading>
+          <p className={styles.reviewText}>{props.evidence.evidence[criteriaId].response}</p>
+          {props.evidence.criteria.indexOf(criteriaId) !== props.evidence.criteria.length - 1 && (
+            <div className={styles.spacer} />
+          )}
         </React.Fragment>
-    ))}
-    }
+      ))}
   </div>
 )
-// const domain = this.props.meta.domain
-//     const criteriaNeeded = getCriteriaNeeded(
-//       domain.criteriaNeeded,
-//       domain.priceMaximum,
-//       this.props[this.props.model].maxDailyRate
-//     )
 
 SellerAssessmentView.propTypes = {
   meta: PropTypes.object.isRequired,
