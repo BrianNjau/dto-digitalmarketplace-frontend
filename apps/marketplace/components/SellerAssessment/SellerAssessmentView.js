@@ -16,39 +16,15 @@ const SellerAssessmentView = props => (
       {props.meta.domain.name} Assessment
     </AUheading>
 
-    {props.meta.evidence.status === 'assessed' && (
-      <p>
-        You cannot edit your request for approved categories. If you want to change your rate, please contact the
-        Digital Marketplace.
-      </p>
-    )}
-
-    {props.meta.evidence.status === 'submitted' && (
-      <p>
-        You cannot edit your request once you&apos;ve submitted an request for assessment.
-        <br />
-        If you have an issue, <a href="/contact-us">contact our support team.</a>
-      </p>
-    )}
-
-    {props.meta.evidence.status === 'rejected' && (
-      <p>
-        If your assessment is not approved, you can view the
-        {/* <a href={`${rootPath}/seller-assessment/${props[props.model].id}/feedback/`}> feedback </a> */}
-        and submit another request.
-      </p>
-    )}
-
     <AUheading level="2" size="lg">
       Maximum daily rate
     </AUheading>
-    <p>${props.meta.evidence.maxDailyRate} (including GST)</p>
+    {/* <p>${props.meta.evidence.maxDailyRate} (including GST)</p> */}
     <AUheading level="2" size="lg">
       Evidence
     </AUheading>
-    {/* <p> {props.meta.domain.criteria[0]}</p> */}
-    {/* <p> {props.meta.domain}</p> */}
-    {/* {props.meta.domain.criteria.map(criteriaId => (
+
+    {props.evidence.criteria && props.evidence.criteria.map(criteriaId => (
       <React.Fragment key={criteriaId}>
         <AUheading level="2" size="md">
           Criteria
@@ -57,7 +33,8 @@ const SellerAssessmentView = props => (
           Client
         </AUheading>
         </React.Fragment>
-    ))} */}
+    ))}
+    }
   </div>
 )
 // const domain = this.props.meta.domain
@@ -67,9 +44,9 @@ const SellerAssessmentView = props => (
 //       this.props[this.props.model].maxDailyRate
 //     )
 
-
 SellerAssessmentView.propTypes = {
-  meta: PropTypes.object.isRequired
+  meta: PropTypes.object.isRequired,
+  evidence: PropTypes.object.isRequired
 }
 
 export default SellerAssessmentView
