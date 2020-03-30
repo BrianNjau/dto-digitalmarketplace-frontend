@@ -44,13 +44,22 @@ class SellerAssessmentViewPage extends Component {
     if (this.state.loading) {
       return <LoadingIndicatorFullPage />
     }
-
-    return <SellerAssessmentView meta={{ domain: this.props.domain, evidence: this.props.evidence }} />
+    return <SellerAssessmentView meta={{ domain: this.props.domain }} evidence={this.props.evidence} />
+    // if (typeof this.props.evidence.critiera !== 'undefined') {
+    //   {
+    //     console.log('HELLO WORLD')
+    //   }
+    //   return <SellerAssessmentView meta={{ domain: this.props.domain }} evidence={this.props.evidence} />
+    // } else {
+    //   {
+    //     console.log('Reached else =( ')
+    //   }
+    //   return null
+    // }
   }
 }
 
 const mapStateToProps = state => ({
-  ...formProps(state),
   domain: state.domain.domain,
   evidence: state.evidence
 })
