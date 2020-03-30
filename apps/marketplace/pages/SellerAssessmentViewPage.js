@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadDomainData, loadEvidenceData } from 'marketplace/actions/supplierActions'
 import LoadingIndicatorFullPage from 'shared/LoadingIndicatorFullPage/LoadingIndicatorFullPage'
-import formProps from 'shared/form/formPropsSelector'
 import SellerAssessmentView from 'marketplace/components/SellerAssessment/SellerAssessmentView'
 
 class SellerAssessmentViewPage extends Component {
@@ -45,17 +44,6 @@ class SellerAssessmentViewPage extends Component {
       return <LoadingIndicatorFullPage />
     }
     return <SellerAssessmentView meta={{ domain: this.props.domain }} evidence={this.props.evidence} />
-    // if (typeof this.props.evidence.critiera !== 'undefined') {
-    //   {
-    //     console.log('HELLO WORLD')
-    //   }
-    //   return <SellerAssessmentView meta={{ domain: this.props.domain }} evidence={this.props.evidence} />
-    // } else {
-    //   {
-    //     console.log('Reached else =( ')
-    //   }
-    //   return null
-    // }
   }
 }
 
