@@ -22,6 +22,7 @@ import ErrorAlert from 'marketplace/components/Alerts/ErrorAlert'
 import DateControl from 'marketplace/components/BuyerBriefFlow/DateControl'
 import CheckboxDetailsField from 'shared/form/CheckboxDetailsField'
 import styles from '../../main.scss'
+// import style from '../BuyerSpecialist/BuyerSpecialistAdditionalInformationStage'
 
 const requiredContactNumber = v => required(v.contactNumber)
 const contactNumberFormat = v => validPhoneNumber(v.contactNumber)
