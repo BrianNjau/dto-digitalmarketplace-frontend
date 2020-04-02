@@ -17,7 +17,8 @@ import {
 import ErrorAlert from 'marketplace/components/Alerts/ErrorAlert'
 import DateControl from 'marketplace/components/BuyerBriefFlow/DateControl'
 import CheckboxDetailsField from 'shared/form/CheckboxDetailsField'
-import styles from '../BuyerSpecialist/BuyerSpecialistAdditionalInformation.scss'
+// import styles from '../BuyerSpecialist/BuyerSpecialistAdditionalInformation.scss'
+import styles from '../../main.scss'
 
 const requiredContactNumber = v => required(v.contactNumber)
 const contactNumberFormat = v => validPhoneNumber(v.contactNumber)
@@ -52,7 +53,8 @@ export class BuyerRFXAdditionalInformationStage extends Component {
     const { model } = this.props
     return (
       <Form
-        className={styles.additionalInformationContainer}
+        // className={styles.additionalInformationContainer}
+        className={`${styles.maxWidth100} ${styles.marginTop0} ${styles.marginBottom3}`}
         model={model}
         validators={{
           '': {
@@ -82,10 +84,11 @@ export class BuyerRFXAdditionalInformationStage extends Component {
             closedAtIsBefore: 'You must enter a closing date no more than one year from now'
           }}
         />
-        <AUheadings level="2" size="sm">
+        <AUheadings className={styles.marginBottom0} level="2" size="sm">
           Comprehensive terms
         </AUheadings>
-        <p className={`${styles.fullWidth} ${styles.removeTopMargin}`}>
+        {/* <p className={`${styles.fullWidth} ${styles.removeTopMargin}`}> */}
+        <p className={`${styles.maxWidth100} ${styles.marginTop0}`}>
           We recommend that the{' '}
           <a href="/api/2/r/comprehensive-terms-current.pdf" rel="noopener noreferrer" target="_blank">
             comprehensive terms
@@ -93,7 +96,8 @@ export class BuyerRFXAdditionalInformationStage extends Component {
           only be applied to procurements that are complex or high value. The terms will apply to your work order, in
           addition to the Master Agreement.
         </p>
-        <p className={styles.verticalMargin}>
+        {/* <p className={styles.verticalMargin}> */}
+        <p className={styles.marginBottom3}>
           <CheckboxDetailsField
             model={`${this.props.model}.comprehensiveTerms`}
             id={`comprehensiveTerms`}
