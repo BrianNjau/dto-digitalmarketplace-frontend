@@ -17,6 +17,8 @@ import ValidationSummary from '../ValidationSummary';
 
 import '../SellerRegistration.css';
 
+export const smallEnoughForSME= formValues =>
+!formValues.seller_type.sme || formValues.number_of_employees !== '200+'
 
 class BusinessInfoForm extends BaseForm {
 
@@ -54,8 +56,7 @@ class BusinessInfoForm extends BaseForm {
                           onSubmitFailed={onSubmitFailed}
                           validators={{
                             '': {
-                                smallEnoughForSME: formValues =>
-                                    !formValues.seller_type.sme || formValues.number_of_employees !== '200+'
+                                smallEnoughForSME
                             }
                           }}
                     >
