@@ -20,6 +20,9 @@ import '../SellerRegistration.css';
 export const smallEnoughForSME= formValues =>
 !formValues.seller_type.sme || formValues.number_of_employees !== '200+'
 
+export const startUpValidation= formValues =>
+!formValues.seller_type.start_up || formValues.seller_type.start_up && parseInt(formValues.age_of_abn) > 5
+
 class BusinessInfoForm extends BaseForm {
 
     static propTypes = {
@@ -56,7 +59,7 @@ class BusinessInfoForm extends BaseForm {
                           onSubmitFailed={onSubmitFailed}
                           validators={{
                             '': {
-                                smallEnoughForSME
+                                smallEnoughForSME, startUpValidation
                             }
                           }}
                     >
@@ -164,6 +167,13 @@ class BusinessInfoForm extends BaseForm {
                           </div>
 
                           <br/>
+                          <StatefulError
+                                model={model}
+                                id="start-up"
+                                messages={{
+                                    startUpValidation: 'ABN is old'
+                                }}
+                            />
                             <Control.checkbox
                                 model={`${model}.seller_type.start_up`}
                                 id="start-up"
