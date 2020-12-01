@@ -138,19 +138,9 @@ class SellerAssessmentCriteriaStage extends Component {
             </AUheadings>
             <div className={styles.criteria}>
               {essentialCriteria.map(criteria => (
-                <CheckboxDetailsField
-                  disabled
-                  key={criteria.id}
-                  model={`${this.props.model}.criteria[]`}
-                  id={`criteria_${criteria.id}`}
-                  name={`criteria_${criteria.id}`}
-                  label={criteria.name}
-                  value={criteria.id}
-                  detailsModel={this.props.model}
-                  onClick={this.handleClick}
-                  validators={{}}
-                  messages={{}}
-                />
+                <React.Fragment key={criteria.id}>
+                  <p>{criteria.id}</p>
+                </React.Fragment>
               ))}
             </div>
             <AUheadings level="2" size="lg">
