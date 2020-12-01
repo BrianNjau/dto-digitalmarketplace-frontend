@@ -139,7 +139,7 @@ class SellerAssessmentCriteriaStage extends Component {
             <div className={styles.criteria}>
               {essentialCriteria.map(criteria => (
                 <React.Fragment key={criteria.id}>
-                  <p>{criteria.id}</p>
+                  <p>{criteria.name}</p>
                 </React.Fragment>
               ))}
             </div>
