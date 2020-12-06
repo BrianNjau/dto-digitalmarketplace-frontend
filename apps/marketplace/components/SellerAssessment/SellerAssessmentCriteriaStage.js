@@ -20,11 +20,19 @@ const getCriteriaNeeded = (criteriaNeeded, priceMaximum, maxDailyRate) => {
 const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
   getCriteriaNeeded(criteriaNeeded, priceMaximum, maxDailyRate) + 2
 
-const minimumCriteriaMet = (v, d) =>
-  d.criteriaNeeded &&
-  v.criteria &&
-  v.criteria.length &&
-  v.criteria.length >= getCriteriaNeeded(d.criteriaNeeded, d.priceMaximum, v.maxDailyRate)
+const minimumCriteriaMet = (v, d) => {
+  if (d === 'Platforms Integration') {
+    d.criteriaNeeded &&
+      v.criteria &&
+      v.criteria.length &&
+      v.criteria.length >= getCriteriaNeeded(d.criteriaNeeded, d.priceMaximum, v.maxDailyRate) - 2
+  } else {
+    d.criteriaNeeded &&
+      v.criteria &&
+      v.criteria.length &&
+      v.criteria.length >= getCriteriaNeeded(d.criteriaNeeded, d.priceMaximum, v.maxDailyRate)
+  }
+}
 
 const maximumCriteriaAllowed = (v, d) =>
   !minimumCriteriaMet(v, d) ||
