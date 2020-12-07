@@ -22,20 +22,13 @@ const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
 
 const minimumCriteriaMet = (v, d) => {
   if (d === 'Platforms integration') {
-    d.criteriaNeeded &&
-      v.criteria &&
-      v.criteria.length &&
-      v.criteria.length >= getCriteriaNeeded(d.criteriaNeeded, d.priceMaximum, v.maxDailyRate) - 2
-  } else {
-    d.criteriaNeeded &&
-      v.criteria &&
-      v.criteria.length &&
-      v.criteria.length >= getCriteriaNeeded(d.criteriaNeeded, d.priceMaximum, v.maxDailyRate)
+    const platformCriteriaNeeded = getCriteriaNeeded(d.criteriaNeeded, d.priceMaximum, v.maxDailyRate) - 2
+    return d.criteriaNeeded && v.criteria && v.criteria.length && v.criteria.length >= platformCriteriaNeeded
   }
+  const criteriaNeeded = getCriteriaNeeded(d.criteriaNeeded, d.priceMaximum, v.maxDailyRate)
+  const b = d.criteriaNeeded && v.criteria && v.criteria.length && v.criteria.length >= criteriaNeeded
+  return b
 }
-
-// check if domain is platform
-const requiredMinCriteria = v => minimumCriteriaMet(v, domain)
 
 const maximumCriteriaAllowed = (v, d) =>
   !minimumCriteriaMet(v, d) ||
@@ -105,7 +98,7 @@ class SellerAssessmentCriteriaStage extends Component {
         model={this.props.model}
         validators={{
           '': {
-            requiredMinimal: requiredMinCriteria(v),
+            requiredMinimal: v => minimumCriteriaMet(v, domain),
             requiredMaximum: v => maximumCriteriaAllowed(v, domain)
           }
         }}
