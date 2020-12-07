@@ -21,7 +21,7 @@ const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
   getCriteriaNeeded(criteriaNeeded, priceMaximum, maxDailyRate) + 2
 
 const getMessage = (domain, maxDailyRate) => {
-  if (domain === 'Platforms integration') {
+  if (domain.name === 'Platforms integration') {
     const platformMessage = 'HI'
     return platformMessage
   }
