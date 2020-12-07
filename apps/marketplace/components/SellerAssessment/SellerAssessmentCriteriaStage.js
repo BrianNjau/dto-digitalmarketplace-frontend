@@ -34,6 +34,8 @@ const minimumCriteriaMet = (v, d) => {
   }
 }
 
+const requiredMinCriteria = v => minimumCriteriaMet(v, domain)
+
 const maximumCriteriaAllowed = (v, d) =>
   !minimumCriteriaMet(v, d) ||
   new Date(v.created_at) <= new Date(d.criteriaEnforcementCutoffDate) ||
@@ -102,7 +104,7 @@ class SellerAssessmentCriteriaStage extends Component {
         model={this.props.model}
         validators={{
           '': {
-            requiredMinimal: v => minimumCriteriaMet(v, domain),
+            requiredMinimal: requiredMinCriteria(v),
             requiredMaximum: v => maximumCriteriaAllowed(v, domain)
           }
         }}
