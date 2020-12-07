@@ -21,11 +21,11 @@ const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
   getCriteriaNeeded(criteriaNeeded, priceMaximum, maxDailyRate) + 2
 
 const getMessage = (domain, maxDailyRate) => {
+  const criteriaNeeded = getCriteriaNeeded(domain.criteriaNeeded, domain.priceMaximum, maxDailyRate) - 2
   if (domain.name === 'Platforms integration') {
-    const platformMessage = 'HI'
+    const platformMessage = `You must submit at least ${criteriaNeeded - essentialCriteria.length} Other criteria`
     return platformMessage
   }
-  const criteriaNeeded = getCriteriaNeeded(domain.criteriaNeeded, domain.priceMaximum, maxDailyRate)
   const message = `You must submit evidence for at least ${criteriaNeeded} ${
     criteriaNeeded === 1 ? 'criterion' : 'criteria'
   }.`
