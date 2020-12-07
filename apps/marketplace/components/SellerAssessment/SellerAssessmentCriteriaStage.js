@@ -21,7 +21,7 @@ const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
   getCriteriaNeeded(criteriaNeeded, priceMaximum, maxDailyRate) + 2
 
 const minimumCriteriaMet = (v, d) => {
-  if (d === 'Platforms Integration') {
+  if (d === 'Platforms integration') {
     d.criteriaNeeded &&
       v.criteria &&
       v.criteria.length &&
