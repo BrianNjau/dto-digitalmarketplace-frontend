@@ -34,6 +34,7 @@ const minimumCriteriaMet = (v, d) => {
   }
 }
 
+// check if domain is platform
 const requiredMinCriteria = v => minimumCriteriaMet(v, domain)
 
 const maximumCriteriaAllowed = (v, d) =>
