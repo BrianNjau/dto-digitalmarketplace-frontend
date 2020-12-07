@@ -121,7 +121,7 @@ class SellerAssessmentCriteriaStage extends Component {
         <ErrorAlert
           model={this.props.model}
           messages={{
-            requiredMinimal: getMessage(domain, maxDailyRate. essentialCriteria),
+            requiredMinimal: getMessage(domain, maxDailyRate.essentialCriteria),
             requiredMaximum: `You cannot submit evidence for more than ${criteriaAllowed} criteria.`
           }}
         />
