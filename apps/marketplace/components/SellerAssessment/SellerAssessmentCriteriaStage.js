@@ -20,7 +20,8 @@ const getCriteriaNeeded = (criteriaNeeded, priceMaximum, maxDailyRate) => {
 const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
   getCriteriaNeeded(criteriaNeeded, priceMaximum, maxDailyRate) + 2
 
-const getMessage = (domain, maxDailyRate) => {
+const getMessage = (domain, maxDailyRate, essentialCriteria) => {
+  // would need to pass criteriaNeeded
   const criteriaNeeded = getCriteriaNeeded(domain.criteriaNeeded, domain.priceMaximum, maxDailyRate) - 2
   if (domain.name === 'Platforms integration') {
     const platformMessage = `You must submit at least ${criteriaNeeded - essentialCriteria.length} Other criteria`
@@ -120,7 +121,7 @@ class SellerAssessmentCriteriaStage extends Component {
         <ErrorAlert
           model={this.props.model}
           messages={{
-            requiredMinimal: getMessage(domain, maxDailyRate),
+            requiredMinimal: getMessage(domain, maxDailyRate. essentialCriteria),
             requiredMaximum: `You cannot submit evidence for more than ${criteriaAllowed} criteria.`
           }}
         />
