@@ -32,7 +32,7 @@ const getMessage = (domain, maxDailyRate) => {
     const platformMessage =
       `You must submit at least ${criteriaNeeded - essentialCriteria.length}` +
       '<strong> &apos;' +
-      "Other criteria" +
+      'Other criteria' +
       '&apos;</strong>'
 
     return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
