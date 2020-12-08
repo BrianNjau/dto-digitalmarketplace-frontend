@@ -40,6 +40,22 @@ const getMessage = (domain, criteriaNeeded, essentialCriteria) => {
   return message
 }
 
+const getMaxMessage = (domain, criteriaAllowed, criteriaNeeded) => {
+  const sanitizer = dompurify.sanitize
+
+  if (domain.name === 'Platforms integration') {
+    const platformMessage =
+      `You can only select a max of ${criteriaAllowed - criteriaNeeded}` +
+      '<strong> &apos;' +
+      'Other criteria' +
+      '&apos;</strong>'
+
+    return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
+  }
+  const message = `You cannot submit evidence for more than ${criteriaAllowed} criteria.`
+  return message
+}
+
 const minimumCriteriaMet = (v, d) =>
   d.criteriaNeeded &&
   v.criteria &&
@@ -129,7 +145,7 @@ class SellerAssessmentCriteriaStage extends Component {
           model={this.props.model}
           messages={{
             requiredMinimal: getMessage(domain, criteriaNeeded, essentialCriteria),
-            requiredMaximum: `You cannot submit evidence for more than ${criteriaAllowed} criteria.`
+            requiredMaximum: getMaxMessage(domain, criteriaAllowed, criteriaNeeded)
           }}
         />
         <p>
