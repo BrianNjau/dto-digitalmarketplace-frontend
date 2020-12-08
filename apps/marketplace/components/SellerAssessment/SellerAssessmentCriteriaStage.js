@@ -31,7 +31,7 @@ const getMessage = (domain, maxDailyRate) => {
   if (domain.name === 'Platforms integration') {
     const platformMessage =
       `You must submit at least ${criteriaNeeded - essentialCriteria.length}` +
-      '<Strong>' +
+      '<Strong> ' +
       "'Other criteria'" +
       '</Strong>'
 
