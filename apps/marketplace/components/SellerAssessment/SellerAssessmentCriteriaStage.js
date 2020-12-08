@@ -1,5 +1,7 @@
+/* eslint-disable react/no-danger */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import dompurify from 'dompurify'
 import { connect } from 'react-redux'
 import { Form, actions } from 'react-redux-form'
 import CheckboxDetailsField from 'shared/form/CheckboxDetailsField'
@@ -20,16 +22,21 @@ const getCriteriaNeeded = (criteriaNeeded, priceMaximum, maxDailyRate) => {
 const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
   getCriteriaNeeded(criteriaNeeded, priceMaximum, maxDailyRate) + 2
 
-const getMessage = domain => {
-  if (domain === 'Platforms integration') {
-    const platformMessage = 'HI'
-    return platformMessage
+const getMessage = (domain, maxDailyRate) => {
+  // would need to pass criteriaNeeded
+  const criteriaNeeded = getCriteriaNeeded(domain.criteriaNeeded, domain.priceMaximum, maxDailyRate)
+  const essentialCriteria = domain.criteria.filter(criterion => criterion.essential)
+  const sanitizer = dompurify.sanitize
+
+  if (domain.name === 'Platforms integration') {
+    const platformMessage =
+      `You must submit at least ${criteriaNeeded - essentialCriteria.length}` +
+      '<Strong> ' +
+      "'Other criteria'" +
+      '</Strong>'
+
+    return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
   }
-  const criteriaNeeded = getCriteriaNeeded(
-    domain.criteriaNeeded,
-    domain.priceMaximum,
-    this.props[this.props.model].maxDailyRate
-  )
   const message = `You must submit evidence for at least ${criteriaNeeded} ${
     criteriaNeeded === 1 ? 'criterion' : 'criteria'
   }.`
@@ -90,6 +97,7 @@ class SellerAssessmentCriteriaStage extends Component {
 
   render() {
     const domain = this.props.meta.domain
+    const maxDailyRate = this.props[this.props.model].maxDailyRate
     const criteriaNeeded = getCriteriaNeeded(
       domain.criteriaNeeded,
       domain.priceMaximum,
@@ -123,7 +131,7 @@ class SellerAssessmentCriteriaStage extends Component {
         <ErrorAlert
           model={this.props.model}
           messages={{
-            requiredMinimal: getMessage(domain),
+            requiredMinimal: getMessage(domain, maxDailyRate),
             requiredMaximum: `You cannot submit evidence for more than ${criteriaAllowed} criteria.`
           }}
         />
