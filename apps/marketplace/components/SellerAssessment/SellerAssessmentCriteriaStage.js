@@ -44,11 +44,7 @@ const getMaxMessage = (domain, criteriaAllowed, criteriaNeeded) => {
   const sanitizer = dompurify.sanitize
 
   if (domain.name === 'Platforms integration') {
-    const platformMessage =
-      `You can only select a maximum of ${criteriaNeeded}`+
-      '<strong> &apos;' +
-      'Other criteria' +
-      '&apos;</strong>'
+    const platformMessage = `You can only select a maximum of ${criteriaNeeded} <strong> &apos; Other criteria &apos;</strong>`
 
     return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
   }
@@ -173,7 +169,7 @@ class SellerAssessmentCriteriaStage extends Component {
             <div className={styles.criteria}>
               {essentialCriteria.map(criteria => (
                 <React.Fragment key={criteria.id}>
-                  <span>{criteria.name}</span>
+                  <p className={styles.essential}>{criteria.name}</p>
                 </React.Fragment>
               ))}
             </div>
