@@ -87,18 +87,9 @@ export class Categories extends Component {
                 <br />
               </span>
             )}
-            <a
-              href="https://marketplace1.zendesk.com/hc/en-gb/requests/new"
-              rel="noopener noreferrer"
-              target="_blank"
-              className={styles.marginRight1}
-            >
+            <a href="https://marketplace1.zendesk.com/hc/en-gb/requests/new" rel="noopener noreferrer" target="_blank">
               Contact us to adjust your rate
             </a>
-            {!category.evidence_id && <a href={`${rootPath}/case-studies/${category.id}/view`}>View case study</a>}
-            {category.evidence_id && (
-              <a href={`${rootPath}/seller-assessment/${category.evidence_id}/view`}>View submitted evidence</a>
-            )}
           </React.Fragment>
         )
       case 'rejected':
@@ -107,17 +98,11 @@ export class Categories extends Component {
             <a href={`${rootPath}/seller-assessment/${category.evidence_id}/feedback`} className={styles.marginRight1}>
               View feedback
             </a>
-            <a href={`${rootPath}/seller-assessment/create/${category.id}`} className={styles.marginRight1}>
-              Resubmit{' '}
-            </a>
+            <a href={`${rootPath}/seller-assessment/create/${category.id}`}>Resubmit</a>
           </React.Fragment>
         )
       case 'submitted':
-        return (
-          <React.Fragment>
-            <p>The Digital Marketplace is reviewing your request for assessment.</p>
-          </React.Fragment>
-        )
+        return 'The Marketplace is reviewing your request for assessment.'
       default:
         return ''
     }
