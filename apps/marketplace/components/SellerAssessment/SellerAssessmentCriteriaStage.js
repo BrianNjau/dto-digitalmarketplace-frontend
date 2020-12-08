@@ -1,5 +1,7 @@
+/* eslint-disable react/no-danger */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import dompurify from 'dompurify'
 import { connect } from 'react-redux'
 import { Form, actions } from 'react-redux-form'
 import CheckboxDetailsField from 'shared/form/CheckboxDetailsField'
@@ -24,9 +26,16 @@ const getMessage = (domain, maxDailyRate) => {
   // would need to pass criteriaNeeded
   const criteriaNeeded = getCriteriaNeeded(domain.criteriaNeeded, domain.priceMaximum, maxDailyRate)
   const essentialCriteria = domain.criteria.filter(criterion => criterion.essential)
+  const sanitizer = dompurify.sanitize
+
   if (domain.name === 'Platforms integration') {
-    const platformMessage = `You must submit at least ${criteriaNeeded - essentialCriteria.length}  'Other criteria'`
-    return platformMessage
+    const platformMessage =
+      `You must submit at least ${criteriaNeeded - essentialCriteria.length}` +
+      '<Strong>' +
+      "'Other criteria'" +
+      '</Strong>'
+
+    return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
   }
   const message = `You must submit evidence for at least ${criteriaNeeded} ${
     criteriaNeeded === 1 ? 'criterion' : 'criteria'
