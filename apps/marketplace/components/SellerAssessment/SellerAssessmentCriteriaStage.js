@@ -45,7 +45,7 @@ const getMaxMessage = (domain, criteriaAllowed, criteriaNeeded) => {
 
   if (domain.name === 'Platforms integration') {
     const platformMessage =
-      `You can only select a max of ${criteriaAllowed} ${criteriaNeeded}` +
+      `You can only select a maximum of ${criteriaNeeded}`+
       '<strong> &apos;' +
       'Other criteria' +
       '&apos;</strong>'
