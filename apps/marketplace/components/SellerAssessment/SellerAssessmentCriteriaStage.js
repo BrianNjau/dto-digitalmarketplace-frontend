@@ -45,7 +45,7 @@ const getMaxMessage = (domain, criteriaAllowed, criteriaNeeded) => {
 
   if (domain.name === 'Platforms integration') {
     const platformMessage =
-      `You can only select a max of ${criteriaAllowed - criteriaNeeded}` +
+      `You can only select a max of ${criteriaAllowed} ${criteriaNeeded}` +
       '<strong> &apos;' +
       'Other criteria' +
       '&apos;</strong>'
@@ -173,7 +173,7 @@ class SellerAssessmentCriteriaStage extends Component {
             <div className={styles.criteria}>
               {essentialCriteria.map(criteria => (
                 <React.Fragment key={criteria.id}>
-                  <p>{criteria.name}</p>
+                  <span>{criteria.name}</span>
                 </React.Fragment>
               ))}
             </div>
