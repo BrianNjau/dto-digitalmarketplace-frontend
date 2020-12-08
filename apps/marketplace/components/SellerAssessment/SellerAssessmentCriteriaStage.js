@@ -26,7 +26,7 @@ const getMessage = (domain, maxDailyRate) => {
   const essentialCriteria = domain.criteria.filter(criterion => criterion.essential)
   if (domain.name === 'Platforms integration') {
     const platformMessage = `You must submit at least ${criteriaNeeded -
-      essentialCriteria.length} &apos Other criteria &apos`
+      essentialCriteria.length} &apos; Other criteria &apos;`
     return platformMessage
   }
   const message = `You must submit evidence for at least ${criteriaNeeded} ${
