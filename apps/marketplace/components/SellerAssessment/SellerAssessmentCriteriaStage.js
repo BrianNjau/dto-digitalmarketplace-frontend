@@ -26,11 +26,8 @@ const getMessage = (domain, criteriaNeeded, essentialCriteria) => {
   const sanitizer = dompurify.sanitize
 
   if (domain.name === 'Platforms integration') {
-    const platformMessage =
-      `You must submit at least ${criteriaNeeded - essentialCriteria.length}` +
-      '<strong> &apos;' +
-      'Other criteria' +
-      '&apos;</strong>'
+    const platformMessage = `You must submit at least ${criteriaNeeded -
+      essentialCriteria.length} <strong> &apos;Other criteria&apos;</strong>`
 
     return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
   }
@@ -44,7 +41,7 @@ const getMaxMessage = (domain, criteriaAllowed, criteriaNeeded) => {
   const sanitizer = dompurify.sanitize
 
   if (domain.name === 'Platforms integration') {
-    const platformMessage = `You can only select a maximum of ${criteriaNeeded} <strong> &apos; Other criteria &apos;</strong>`
+    const platformMessage = `You can only select a maximum of ${criteriaNeeded} <strong> &apos;Other criteria&apos;</strong>`
 
     return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
   }
