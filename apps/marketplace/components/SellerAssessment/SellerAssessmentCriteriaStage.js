@@ -22,10 +22,7 @@ const getCriteriaNeeded = (criteriaNeeded, priceMaximum, maxDailyRate) => {
 const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
   getCriteriaNeeded(criteriaNeeded, priceMaximum, maxDailyRate) + 2
 
-const getMessage = (domain, maxDailyRate) => {
-  // would need to pass criteriaNeeded
-  const criteriaNeeded = getCriteriaNeeded(domain.criteriaNeeded, domain.priceMaximum, maxDailyRate)
-  const essentialCriteria = domain.criteria.filter(criterion => criterion.essential)
+const getMessage = (domain, criteriaNeeded, essentialCriteria) => {
   const sanitizer = dompurify.sanitize
 
   if (domain.name === 'Platforms integration') {
@@ -42,11 +39,12 @@ const getMessage = (domain, maxDailyRate) => {
   }.`
   return message
 }
-const minimumCriteriaMet = (v, d) => {
-  const criteriaNeeded = getCriteriaNeeded(d.criteriaNeeded, d.priceMaximum, v.maxDailyRate)
-  const b = d.criteriaNeeded && v.criteria && v.criteria.length && v.criteria.length >= criteriaNeeded
-  return b
-}
+
+const minimumCriteriaMet = (v, d) =>
+  d.criteriaNeeded &&
+  v.criteria &&
+  v.criteria.length &&
+  v.criteria.length >= getCriteriaNeeded(d.criteriaNeeded, d.priceMaximum, v.maxDailyRate)
 
 const maximumCriteriaAllowed = (v, d) =>
   !minimumCriteriaMet(v, d) ||
@@ -97,7 +95,6 @@ class SellerAssessmentCriteriaStage extends Component {
 
   render() {
     const domain = this.props.meta.domain
-    const maxDailyRate = this.props[this.props.model].maxDailyRate
     const criteriaNeeded = getCriteriaNeeded(
       domain.criteriaNeeded,
       domain.priceMaximum,
@@ -131,7 +128,7 @@ class SellerAssessmentCriteriaStage extends Component {
         <ErrorAlert
           model={this.props.model}
           messages={{
-            requiredMinimal: getMessage(domain, maxDailyRate),
+            requiredMinimal: getMessage(domain, criteriaNeeded, essentialCriteria),
             requiredMaximum: `You cannot submit evidence for more than ${criteriaAllowed} criteria.`
           }}
         />
