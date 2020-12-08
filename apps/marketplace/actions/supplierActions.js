@@ -1,7 +1,5 @@
 import {
-  CASE_STUDIES_LOAD_SUCCESS,
   DOMAIN_LOAD_SUCCESS,
-  DOMAIN_EVIDENCE_LOAD_SUCCESS,
   EVIDENCE_CREATE_SUCCESS,
   EVIDENCE_LOAD_SUCCESS,
   EVIDENCE_FEEDBACK_LOAD_SUCCESS,
@@ -47,27 +45,6 @@ export const handleErrorFailure = response => dispatch => {
   }
 }
 
-export const handleCaseStudiesSuccess = response => ({
-  type: CASE_STUDIES_LOAD_SUCCESS,
-  data: {
-    categoryName: response.data.category_name,
-    caseStudiesData: response.data.cs_data
-  }
-})
-
-export const loadCaseStudiesData = domainId => dispatch => {
-  dispatch(sendingRequest(true))
-  return dmapi({ url: `/case-studies/${domainId}/view` }).then(response => {
-    if (!response || response.error) {
-      dispatch(handleErrorFailure(response))
-    } else {
-      dispatch(handleCaseStudiesSuccess(response))
-    }
-    dispatch(sendingRequest(false))
-    return response
-  })
-}
-
 export const handleDomainLoadSuccess = response => ({
   type: DOMAIN_LOAD_SUCCESS,
   data: {
@@ -88,28 +65,6 @@ export const loadDomainData = domainId => dispatch => {
       dispatch(handleErrorFailure(response))
     } else {
       dispatch(handleDomainLoadSuccess(response))
-    }
-    dispatch(sendingRequest(false))
-    return response
-  })
-}
-
-export const handleLoadDomainEvidenceSuccess = response => ({
-  type: DOMAIN_EVIDENCE_LOAD_SUCCESS,
-  data: {
-    categoryName: response.data.category,
-    evidence: response.data.evidence,
-    maxDailyRate: response.data.maxDailyRate
-  }
-})
-
-export const loadDomainEvidenceData = evidenceId => dispatch => {
-  dispatch(sendingRequest(true))
-  return dmapi({ url: `/evidence/${evidenceId}/view` }).then(response => {
-    if (!response || response.error) {
-      dispatch(handleErrorFailure(response))
-    } else {
-      dispatch(handleLoadDomainEvidenceSuccess(response))
     }
     dispatch(sendingRequest(false))
     return response
