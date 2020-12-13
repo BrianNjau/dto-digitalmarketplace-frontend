@@ -37,7 +37,7 @@ const getMinimumMessage = (criteriaNeeded, essentialCriteria) => {
   )
 }
 
-const getMaximumMessage = (criteriaAllowed, criteriaNeeded) => {
+const getMaximumMessage = (criteriaAllowed, criteriaNeeded, essentialCriteria) => {
   if (essentialCriteria.length > 0) {
     return (
       <span>
@@ -138,7 +138,7 @@ class SellerAssessmentCriteriaStage extends Component {
           model={this.props.model}
           messages={{
             requiredMinimal: getMinimumMessage(criteriaNeeded, essentialCriteria),
-            requiredMaximum: getMaximumMessage(criteriaAllowed, criteriaNeeded)
+            requiredMaximum: getMaximumMessage(criteriaAllowed, criteriaNeeded, essentialCriteria)
           }}
         />
         <p>
