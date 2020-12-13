@@ -1,7 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import dompurify from 'dompurify'
 import { connect } from 'react-redux'
 import { Form, actions } from 'react-redux-form'
 import CheckboxDetailsField from 'shared/form/CheckboxDetailsField'
@@ -22,20 +21,22 @@ const getCriteriaNeeded = (criteriaNeeded, priceMaximum, maxDailyRate) => {
 const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
   getCriteriaNeeded(criteriaNeeded, priceMaximum, maxDailyRate) + 2
 
-const getMessage = (domain, criteriaNeeded, essentialCriteria) => {
-  const sanitizer = dompurify.sanitize
+  getMinimumMessage = (criteriaNeeded, essentialCriteria) => {
+    if (essentialCriteria.length > 0) {
+      return (
+        <span>
+          You must select at least {criteriaNeeded - essentialCriteria.length}{' '}
+          <strong> &apos;Other criteria&apos;</strong>
+        </span>
+      )
+    }
 
-  if (domain.name === 'Platforms integration') {
-    const platformMessage = `You must submit at least ${criteriaNeeded -
-      essentialCriteria.length} <strong> &apos;Other criteria&apos;</strong>`
-
-    return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
+    return (
+      <span>
+        You must submit evidence for at least {criteriaNeeded} {criteriaNeeded === 1 ? 'criterion' : 'criteria'}
+      </span>
+    )
   }
-  const message = `You must submit evidence for at least ${criteriaNeeded} ${
-    criteriaNeeded === 1 ? 'criterion' : 'criteria'
-  }.`
-  return message
-}
 
 const getMaxMessage = (domain, criteriaAllowed, criteriaNeeded) => {
   const sanitizer = dompurify.sanitize
@@ -137,7 +138,7 @@ class SellerAssessmentCriteriaStage extends Component {
         <ErrorAlert
           model={this.props.model}
           messages={{
-            requiredMinimal: getMessage(domain, criteriaNeeded, essentialCriteria),
+            requiredMinimal: getMinimumMessage(criteriaNeeded, essentialCriteria),
             requiredMaximum: getMaxMessage(domain, criteriaAllowed, criteriaNeeded)
           }}
         />
