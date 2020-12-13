@@ -1,7 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import dompurify from 'dompurify'
 import { connect } from 'react-redux'
 import { Form, actions } from 'react-redux-form'
 import CheckboxDetailsField from 'shared/form/CheckboxDetailsField'
@@ -22,31 +21,33 @@ const getCriteriaNeeded = (criteriaNeeded, priceMaximum, maxDailyRate) => {
 const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
   getCriteriaNeeded(criteriaNeeded, priceMaximum, maxDailyRate) + 2
 
-const getMessage = (domain, criteriaNeeded, essentialCriteria) => {
-  const sanitizer = dompurify.sanitize
-
-  if (domain.name === 'Platforms integration') {
-    const platformMessage = `You must submit at least ${criteriaNeeded -
-      essentialCriteria.length} <strong> &apos;Other criteria&apos;</strong>`
-
-    return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
+const getMinimumMessage = (criteriaNeeded, essentialCriteria) => {
+  if (essentialCriteria.length > 0) {
+    return (
+      <span>
+        You must select at least {criteriaNeeded - essentialCriteria.length}{' '}
+        <strong> &apos;Other criteria&apos;</strong>
+      </span>
+    )
   }
-  const message = `You must submit evidence for at least ${criteriaNeeded} ${
-    criteriaNeeded === 1 ? 'criterion' : 'criteria'
-  }.`
-  return message
+
+  return (
+    <span>
+      You must submit evidence for at least {criteriaNeeded} {criteriaNeeded === 1 ? 'criterion' : 'criteria'}
+    </span>
+  )
 }
 
-const getMaxMessage = (domain, criteriaAllowed, criteriaNeeded) => {
-  const sanitizer = dompurify.sanitize
-
-  if (domain.name === 'Platforms integration') {
-    const platformMessage = `You can only select a maximum of ${criteriaNeeded} <strong> &apos;Other criteria&apos;</strong>`
-
-    return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
+const getMaximumMessage = (criteriaAllowed, criteriaNeeded) => {
+  if (essentialCriteria.length > 0) {
+    return (
+      <span>
+        You must select a maximum of {criteriaNeeded} <strong> &apos;Other criteria&apos;</strong>
+      </span>
+    )
   }
-  const message = `You cannot submit evidence for more than ${criteriaAllowed} criteria.`
-  return message
+
+  return <span>You cannot submit evidence for more than ${criteriaAllowed} criteria.</span>
 }
 
 const minimumCriteriaMet = (v, d) =>
@@ -137,8 +138,8 @@ class SellerAssessmentCriteriaStage extends Component {
         <ErrorAlert
           model={this.props.model}
           messages={{
-            requiredMinimal: getMessage(domain, criteriaNeeded, essentialCriteria),
-            requiredMaximum: getMaxMessage(domain, criteriaAllowed, criteriaNeeded)
+            requiredMinimal: getMinimumMessage(criteriaNeeded, essentialCriteria),
+            requiredMaximum: getMaximumMessage(criteriaAllowed, criteriaNeeded)
           }}
         />
         <p>
