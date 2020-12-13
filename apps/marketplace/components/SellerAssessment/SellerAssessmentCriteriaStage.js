@@ -22,27 +22,10 @@ const getCriteriaAllowed = (criteriaNeeded, priceMaximum, maxDailyRate) =>
   getCriteriaNeeded(criteriaNeeded, priceMaximum, maxDailyRate) + 2
 
 const getMinimumMessage = (criteriaNeeded, essentialCriteria) => {
-    if (essentialCriteria.length > 0) {
-      return (
-        <span>
-          You must select at least {criteriaNeeded - essentialCriteria.length}{' '}
-          <strong> &apos;Other criteria&apos;</strong>
-        </span>
-      )
-    }
-
-    return (
-      <span>
-        You must submit evidence for at least {criteriaNeeded} {criteriaNeeded === 1 ? 'criterion' : 'criteria'}
-      </span>
-    )
-  }
-
-const getMaxMessage = (criteriaAllowed, criteriaNeeded) => {
   if (essentialCriteria.length > 0) {
     return (
       <span>
-        You must select a maximum of {criteriaNeeded}{' '}
+        You must select at least {criteriaNeeded - essentialCriteria.length}{' '}
         <strong> &apos;Other criteria&apos;</strong>
       </span>
     )
@@ -50,9 +33,21 @@ const getMaxMessage = (criteriaAllowed, criteriaNeeded) => {
 
   return (
     <span>
-      You cannot submit evidence for more than ${criteriaAllowed} criteria.
+      You must submit evidence for at least {criteriaNeeded} {criteriaNeeded === 1 ? 'criterion' : 'criteria'}
     </span>
   )
+}
+
+const getMaxMessage = (criteriaAllowed, criteriaNeeded) => {
+  if (essentialCriteria.length > 0) {
+    return (
+      <span>
+        You must select a maximum of {criteriaNeeded} <strong> &apos;Other criteria&apos;</strong>
+      </span>
+    )
+  }
+
+  return <span>You cannot submit evidence for more than ${criteriaAllowed} criteria.</span>
 }
 
 const minimumCriteriaMet = (v, d) =>
