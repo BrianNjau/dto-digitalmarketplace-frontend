@@ -38,16 +38,21 @@ const getMinimumMessage = (criteriaNeeded, essentialCriteria) => {
     )
   }
 
-const getMaxMessage = (domain, criteriaAllowed, criteriaNeeded) => {
-  const sanitizer = dompurify.sanitize
-
-  if (domain.name === 'Platforms integration') {
-    const platformMessage = `You can only select a maximum of ${criteriaNeeded} <strong> &apos;Other criteria&apos;</strong>`
-
-    return <span dangerouslySetInnerHTML={{ __html: sanitizer(platformMessage) }} />
+const getMaxMessage = (criteriaAllowed, criteriaNeeded) => {
+  if (essentialCriteria.length > 0) {
+    return (
+      <span>
+        You must select a maximum of {criteriaNeeded}{' '}
+        <strong> &apos;Other criteria&apos;</strong>
+      </span>
+    )
   }
-  const message = `You cannot submit evidence for more than ${criteriaAllowed} criteria.`
-  return message
+
+  return (
+    <span>
+      You cannot submit evidence for more than ${criteriaAllowed} criteria.
+    </span>
+  )
 }
 
 const minimumCriteriaMet = (v, d) =>
