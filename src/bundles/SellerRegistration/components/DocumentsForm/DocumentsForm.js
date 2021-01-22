@@ -217,7 +217,7 @@ class DocumentsForm extends BaseForm {
                         onCustomSubmit={onSubmit}
                         onSubmitFailed={onSubmitFailed}
                         validators={{
-                            documents: (documents = {}) => checkNoOfDocuments(documents)
+                            documents: checkNoOfDocuments(documents)
                         }}
                     >
                         {csrf_token && (
