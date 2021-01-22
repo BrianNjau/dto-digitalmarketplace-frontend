@@ -100,6 +100,17 @@ class DocumentsForm extends BaseForm {
         })
     }
 
+    checkNoOfDocuments(documents){
+        if(documents.noWorkersCompensation === true){
+            return minObjectLength(documents, 3)
+        }
+        else{
+            return minObjectLength(documents, 4)
+        }
+
+        
+    }
+
     onUpload(id, e) {
         e.preventDefault();
         const { model, onUpload, removeDocument, updateDocumentName, createDocument, submitApplication, applicationId } = this.props;
@@ -206,7 +217,7 @@ class DocumentsForm extends BaseForm {
                         onCustomSubmit={onSubmit}
                         onSubmitFailed={onSubmitFailed}
                         validators={{
-                            documents: (documents = {}) => minObjectLength(documents, 4) && documents.workers.noWorkersCompensation !== false
+                            documents: (documents = {}) => checkNoOfDocuments(documents)
                         }}
                     >
                         {csrf_token && (
